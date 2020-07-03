@@ -47,4 +47,4 @@ out/
 /src/main/resources/static/libs/package-lock.json
 
 **/secret.properties
-.vscode
+
