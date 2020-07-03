@@ -40,7 +40,7 @@
   "editor.codeLens": false,
   "editor.cursorBlinking": "smooth",
   "editor.cursorStyle": "line",
-  "editor.fontSize": 13,
+  "editor.fontSize": 14,
   "editor.fontFamily": "Fira Code Medium",
   "editor.fontLigatures": true,
   "editor.formatOnPaste": false,

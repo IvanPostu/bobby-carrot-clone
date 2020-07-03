@@ -1,13 +1,15 @@
 package com.utm;
 
-/**
- * Hello world!
- *
- */
+
+import com.utm.state.GameState;
+import com.utm.ui.ApplicationUI;
+
 public class Main 
 {
   public static void main( String[] args )
   {
-    System.out.println( "Hello World!" );
+    ApplicationUI application = new ApplicationUI();
+    application.setState(new GameState());
+
   }
 }
