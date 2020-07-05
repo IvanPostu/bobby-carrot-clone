@@ -4,8 +4,9 @@ import java.util.Map;
 
 import com.utm.app.configurators.JavaConfig;
 
-
 public class Application {
+
+  @SuppressWarnings("rawtypes")
   public static ApplicationContext run(String packageToScan, Map<Class, Class> ifc2ImplClass){
     JavaConfig config = new JavaConfig(packageToScan, ifc2ImplClass);
     ApplicationContext context = new ApplicationContext(config);

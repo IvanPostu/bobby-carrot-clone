@@ -2,7 +2,6 @@ package com.utm.app.configurators;
 
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -20,15 +19,19 @@ public class InjectPropertyAnnotationObjectConfigurator implements ObjectConfigu
   public InjectPropertyAnnotationObjectConfigurator() {
     String path = ClassLoader.getSystemClassLoader()
       .getResource("application.properties").getPath();
-    Stream<String> lines = null;
-    try {
-      lines = new BufferedReader(new FileReader(path)).lines();
-    } catch (FileNotFoundException e1) {
-      e1.printStackTrace();
-    }
+    
+      Stream<String> lines = null;
 
-    propertiesMap = lines.map(line -> line.split("="))
-      .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+    try(var buffer = new BufferedReader(new FileReader(path))) {
+      
+      lines = buffer.lines();
+
+      propertiesMap = lines.map(line -> line.split("="))
+        .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+    
+      } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

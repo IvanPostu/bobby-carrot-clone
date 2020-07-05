@@ -12,6 +12,7 @@ public class ApplicationContext {
     this.config = config;
   }
 
+  @SuppressWarnings("unchecked")
   public <T> T getObject(Class<T> type){
     if(cache.containsKey(type)){
       return (T) cache.get(type);
