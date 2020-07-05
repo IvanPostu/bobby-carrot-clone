@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 
 import java.awt.Dimension;
 
+import com.utm.app.state.CurrentGameState;
+import com.utm.app.view.menu.MainMenu;
+import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
@@ -22,6 +25,11 @@ public class MainWindow extends JFrame {
   @InjectProperty("application.window.height")
   private int height;
 
+  private CurrentGameState gameState; 
+
+  @InjectByType
+  private MainMenu mainMenuJFrame;
+
   public MainWindow() {
     super();
   }
@@ -35,6 +43,18 @@ public class MainWindow extends JFrame {
     setLocationRelativeTo(null);
     setLayout(null);
     setVisible(true);
+    setGameState(CurrentGameState.MAIN_MENU);
+  }
+
+  public void setGameState(CurrentGameState gameState){
+    if(gameState.equals(CurrentGameState.MAIN_MENU)){
+      add(mainMenuJFrame);
+    }
+    this.gameState = gameState;
+  }
+
+  public CurrentGameState getGameState(){
+    return this.gameState;
   }
 
 }
