@@ -48,10 +48,21 @@ public class InjectPropertyAnnotationObjectConfigurator implements ObjectConfigu
         } else {
           value = propertiesMap.get(annotation.value());
         }
+
         field.setAccessible(true);
 
         try {
-          field.set(t, value);
+          Class<?> fieldType = field.getType();
+
+          if(fieldType.equals(int.class) || fieldType.equals(Integer.class)){
+            int n = Integer.parseInt(value);
+            field.set(t, n);
+          }
+
+          if(fieldType.equals(String.class)){
+            field.set(t, value);
+          }
+
         } catch (IllegalArgumentException | IllegalAccessException e) {
           e.printStackTrace();
         }

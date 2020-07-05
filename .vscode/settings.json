@@ -46,7 +46,7 @@
   "editor.formatOnPaste": false,
   "editor.formatOnType": false,
   "editor.letterSpacing": 0.2,
-  "editor.lineHeight": 16,
+  "editor.lineHeight": 15,
   "editor.minimap.enabled": false,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
