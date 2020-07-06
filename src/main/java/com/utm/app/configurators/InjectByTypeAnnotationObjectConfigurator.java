@@ -10,10 +10,16 @@ public class InjectByTypeAnnotationObjectConfigurator implements ObjectConfigura
 
   @Override
   public void configure(Object t, ApplicationContext context) {
+
     for (Field field : t.getClass().getDeclaredFields()) {
+      
+
       if (field.isAnnotationPresent(InjectByType.class)) {
         field.setAccessible(true);
-        Object object = context.getObject(field.getType());
+        Object object = null;
+
+        object = context.getObject(field.getType());
+        
         try {
           field.set(t, object);
         } catch (Exception e) {

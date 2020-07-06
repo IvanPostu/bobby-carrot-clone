@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ObjectFactory {
   
-  private List<ObjectConfigurator> configurators = new LinkedList<>();
+  private final List<ObjectConfigurator> configurators = new LinkedList<>();
   private final ApplicationContext context;
 
   public ObjectFactory(ApplicationContext context) {
@@ -35,14 +35,12 @@ public class ObjectFactory {
       e.printStackTrace();
     }
 
-    configure(t);
 
-    invokeInit(implClass, t);
 
     return t;
   }
 
-  private void invokeInit(Class<?> implClass, Object t) {
+  public void invokeInit(Class<?> implClass, Object t) {
 
     for (Method method : implClass.getMethods()) {
       if (method.isAnnotationPresent(PostConstruct.class)) {
@@ -59,7 +57,7 @@ public class ObjectFactory {
     return implClass.getDeclaredConstructor().newInstance();
   }
 
-  private <T> void configure(T t){
+  public <T> void configure(T t){
     configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
   }
 }

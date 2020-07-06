@@ -25,9 +25,16 @@ public class ApplicationContext {
     }
 
     T t = factory.createObject(implClass);
+
+
     if(implClass.isAnnotationPresent(Singleton.class)){
       cache.put(type, t);
     }
+
+    factory.configure(t);
+
+    factory.invokeInit(implClass, t);
+
 
     return t;
   }
@@ -40,4 +47,5 @@ public class ApplicationContext {
   public void setObjectFactory(ObjectFactory factory){
     this.factory = factory;
   }
+  
 }

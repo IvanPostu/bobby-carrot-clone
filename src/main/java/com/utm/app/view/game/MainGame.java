@@ -1,10 +1,7 @@
-package com.utm.app.view.menu;
-
+package com.utm.app.view.game;
 
 import javax.swing.*;
 
-import com.utm.app.controller.MainMenuController;
-import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
 
@@ -13,7 +10,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 
 
-public class MainMenu extends JPanel implements ActionListener{
+public class MainGame extends JPanel implements ActionListener{
 
   private static final long serialVersionUID = 4997689702344591993L;
 
@@ -25,32 +22,17 @@ public class MainMenu extends JPanel implements ActionListener{
   @InjectProperty("application.window.height")
   private int height;
 
-  @InjectByType
-  private PlayButton playButton;
-
-  @InjectByType
-  private ExitButton exitButton;
-
-  @InjectByType
-  private MainMenuController mainMenuController;
-
-  public MainMenu() {
+  public MainGame() {
     super();
   }
 
   @PostConstruct
   public void postConstruct(){
-    setBackground(Color.DARK_GRAY);
+    setBackground(Color.ORANGE);
     setLayout(null);
     setBounds(0, 0, width, height);
     setFocusable(true);
     requestFocus();
-    add(playButton);
-    add(exitButton);
-
-    exitButton.addActionListener(l -> {
-      mainMenuController.exitFromApplication();
-    });
   }
 
   @Override
