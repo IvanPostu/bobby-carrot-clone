@@ -7,6 +7,7 @@ import com.utm.core.Config;
 
 import org.reflections.Reflections;
 
+
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JavaConfig implements Config {
 
