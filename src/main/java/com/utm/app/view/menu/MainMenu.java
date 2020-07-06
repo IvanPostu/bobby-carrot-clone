@@ -51,6 +51,10 @@ public class MainMenu extends JPanel implements ActionListener{
     exitButton.addActionListener(l -> {
       mainMenuController.exitFromApplication();
     });
+
+    playButton.addActionListener(l -> {
+      mainMenuController.playGame();
+    });
   }
 
   @Override
