@@ -5,16 +5,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
+import java.awt.*;
 
+import com.utm.app.game.element.GameObject;
+import com.utm.app.game.element.GameObjectFactory;
+import static com.utm.app.game.element.GameObjectFactory.ReturnType;
+import com.utm.app.resource.GameBlockEnum;
+import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
 
 @Singleton
 public class GameRoundState {
-  
-  private List<char[]> round = new ArrayList<>();
+
+  @InjectByType
+  private GameObjectFactory gameObjectFactory;
+   
+  private List<List<GameObject>> gameObjects;
+  private List<GameObject> place;
   private float scale = 1.0f;
 
   @PostConstruct
@@ -25,18 +36,56 @@ public class GameRoundState {
       Stream<String> lines = reader.lines();
       Iterator<String> iter = lines.iterator();
 
+      List<char[]> round = new ArrayList<>();
+
       while(iter.hasNext()){
         String s = iter.next();
-        this.round.add(s.toCharArray());
+        round.add(s.toCharArray());
       }
 
+      initGameObjects(round);
     } catch (Exception e1) {
       e1.printStackTrace();
     }
   }
+  
+  private void initGameObjects(List<char[]> roundFromFile){
+    this.gameObjects = new ArrayList<>(roundFromFile.size());
+    this.place = new LinkedList<>();
 
-  public List<char[]> currentRoundState(){
-    return this.round;
+    int y = 0;
+    int x = 0;
+
+    for (char[] cs : roundFromFile) {
+      List<GameObject> list = new ArrayList<>(cs.length);
+      y+=GameObject.gameObjectSize;
+      x = 0;
+
+      for (char c : cs) {
+        x+=GameObject.gameObjectSize;
+        if(c == GameBlockEnum.RABBIT.getCharId()){
+          list.add(gameObjectFactory.createGameObject(ReturnType.RABBIT, x, y));
+        }
+
+        this.place.add(
+          gameObjectFactory.createGameObject(ReturnType.EMPTY_RANDOM_PLACE, x, y));
+      }
+      
+
+      this.gameObjects.add(list);
+    }
+  }
+
+  public void render(Graphics2D g) {
+    for (GameObject place : this.place) {
+      place.render(g);
+    }
+
+    for (List<GameObject> list : gameObjects) {
+      for (GameObject gameObject : list) {
+        gameObject.render(g);
+      }
+    }
   }
 
   public float getScale() {
@@ -45,17 +94,6 @@ public class GameRoundState {
 
   public void setScale(float scale) {
     this.scale = scale;
-  }
-
-  public int getRoundWidth(){
-    return this.round.stream()
-      .mapToInt(v -> v.length)
-      .max()
-      .orElseThrow(()->new RuntimeException());
-  }
-
-  public int getRoundHeight(){
-    return this.round.size();
   }
 
 }

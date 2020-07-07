@@ -1,20 +1,26 @@
 package com.utm.app.resource;
 
 public enum GameBlockEnum {
-  RABBIT_IMAGE("/images/bobby48.png"),
-  ROCK_IMAGE("/images/rock48.png"),
-  CARROT_IMAGE("/images/carrot48.png"),
-  GRASS_A("/images/grass48_A.png"),
-  GRASS_B("/images/grass48_B.png"),
-  GRASS_C("/images/grass48_C.png");
+  RABBIT("/images/bobby48.png", 'Z'),
+  ROCK("/images/rock48.png", 'R'),
+  CARROT("/images/carrot48.png", 'C'),
+  GRASS_A("/images/grass48_A.png", '1'),
+  GRASS_B("/images/grass48_B.png", '2'),
+  GRASS_C("/images/grass48_C.png", '3');
 
   private String path;
+  private char charId;
 
-  private GameBlockEnum(String path){
+  private GameBlockEnum(String path, char charId){
     this.path = path;
+    this.charId = charId;
   }
 
   public String getPath(){
     return this.path;
+  }
+
+  public char getCharId() {
+    return charId;
   }
 }
