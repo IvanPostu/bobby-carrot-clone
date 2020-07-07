@@ -1,13 +1,13 @@
 package com.utm.app.resource;
 
-public enum Block {
+public enum GameBlockEnum {
   RABBIT_IMAGE("/images/bobby48.png"),
   ROCK_IMAGE("/images/rock48.png"),
   CARROT_IMAGE("/images/carrot48.png");
 
   private String path;
 
-  private Block(String path){
+  private GameBlockEnum(String path){
     this.path = path;
   }
 

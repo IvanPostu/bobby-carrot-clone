@@ -1,6 +1,7 @@
 package com.utm.app.controller;
 
-import com.utm.app.state.CurrentGameState;
+import com.utm.app.game.CurrentAppStateEnum;
+import com.utm.app.state.ApplicationState;
 import com.utm.core.InjectByType;
 import com.utm.core.Singleton;
 
@@ -8,14 +9,14 @@ import com.utm.core.Singleton;
 public class MainMenuController {
 
   @InjectByType
-  private GameStateController gameStateController;
+  private ApplicationState appState;
   
   public void exitFromApplication(){
     System.exit(0);
   }
 
   public void playGame(){
-    gameStateController.setGameState(CurrentGameState.GAME);
+    appState.setApplicationState(CurrentAppStateEnum.GAME);
   }
 
 }

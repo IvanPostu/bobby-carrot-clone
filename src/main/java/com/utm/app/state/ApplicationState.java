@@ -1,8 +1,8 @@
-package com.utm.app.controller;
+package com.utm.app.state;
 
 import javax.swing.JPanel;
 
-import com.utm.app.state.CurrentGameState;
+import com.utm.app.game.CurrentAppStateEnum;
 import com.utm.app.view.MainWindow;
 import com.utm.app.view.game.MainGame;
 import com.utm.app.view.menu.MainMenu;
@@ -11,7 +11,7 @@ import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
 
 @Singleton(lazy = false)
-public class GameStateController {
+public class ApplicationState {
   
   @InjectByType
   private MainMenu mainMenuJFrame;
@@ -22,25 +22,25 @@ public class GameStateController {
   @InjectByType
   private MainWindow mainWindow;
 
-  private CurrentGameState gameState; 
+  private CurrentAppStateEnum stateEnum; 
   
   @PostConstruct
   public void postConstruct(){
-    this.setGameState(CurrentGameState.MAIN_MENU);
+    this.setApplicationState(CurrentAppStateEnum.MAIN_MENU);
   }
   
-  public void setGameState(CurrentGameState gameState){
-    if(gameState.equals(CurrentGameState.MAIN_MENU)){
+  public void setApplicationState(CurrentAppStateEnum gameState){
+    if(gameState.equals(CurrentAppStateEnum.MAIN_MENU)){
       mainWindow.remove(mainGameJFrame);
       addUIComponentToMainWindow(mainMenuJFrame);
     }
 
-    if(gameState.equals(CurrentGameState.GAME)){
+    if(gameState.equals(CurrentAppStateEnum.GAME)){
       mainWindow.remove(mainMenuJFrame);
       addUIComponentToMainWindow(mainGameJFrame);
     }
 
-    this.gameState = gameState;
+    this.stateEnum = gameState;
   }
 
   private void addUIComponentToMainWindow(JPanel component){
@@ -50,8 +50,8 @@ public class GameStateController {
   }
 
 
-  public CurrentGameState getGameState(){
-    return this.gameState;
+  public CurrentAppStateEnum getAppState(){
+    return this.stateEnum;
   }
 
 }

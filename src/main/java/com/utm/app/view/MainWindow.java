@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import com.utm.app.controller.GameStateController;
+import com.utm.app.state.ApplicationState;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
@@ -25,7 +25,7 @@ public class MainWindow extends JFrame {
   private int height;
 
   @InjectByType
-  private GameStateController stateController;
+  private ApplicationState stateController;
 
   public MainWindow() {
     super();
