@@ -1,4 +1,4 @@
-package com.utm.app.game;
+package com.utm.app.state;
 
 public enum CurrentAppStateEnum {
   MAIN_MENU,

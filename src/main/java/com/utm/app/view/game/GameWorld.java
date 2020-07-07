@@ -7,6 +7,7 @@ import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class GameWorld {
@@ -41,7 +42,12 @@ public class GameWorld {
     for (int i = 0; i < round.size(); i++) {
       char[] line = round.get(i);
       for (int j = 0; j < line.length; j++) {
-        g.drawRect(BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE);
+        g.setColor(Color.GRAY);
+        
+        // g.drawRect(BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE);
+        g.drawImage(imageContext.getBufferedImage(GameBlockEnum.GRASS_A), 
+          BLOCK_SIZE*j, BLOCK_SIZE*i, null);
+
         this.drawBlockIfPresent(line[j], g, BLOCK_SIZE*j, BLOCK_SIZE*i);
       }
     }
@@ -53,7 +59,8 @@ public class GameWorld {
 
     switch(c){
       case 'Z':
-        g.drawImage(imageContext.getBufferedImage(GameBlockEnum.RABBIT_IMAGE), x, y, null);
+        BufferedImage img = imageContext.getBufferedImage(GameBlockEnum.RABBIT_IMAGE);
+        g.drawImage(img, x, y, null);
         break;
       case 'R':
         g.drawImage(imageContext.getBufferedImage(GameBlockEnum.ROCK_IMAGE), x, y, null);

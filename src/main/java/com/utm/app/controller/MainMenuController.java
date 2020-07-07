@@ -1,7 +1,7 @@
 package com.utm.app.controller;
 
-import com.utm.app.game.CurrentAppStateEnum;
 import com.utm.app.state.ApplicationState;
+import com.utm.app.state.CurrentAppStateEnum;
 import com.utm.core.InjectByType;
 import com.utm.core.Singleton;
 

@@ -18,13 +18,14 @@ public class BufferedImageContext {
 
   private Map<GameBlockEnum, BufferedImage> cache = new ConcurrentHashMap<>();
 
-
   public BufferedImage getBufferedImage(GameBlockEnum resource){
     if(cache.containsKey(resource)){
       return cache.get(resource);
     }
 
-    BufferedImage img = resizeTo32(load(resource.getPath()));
+    BufferedImage img = load(resource.getPath());
+    replaceWhitePixels(img);
+    img = resizeTo32(img);
     cache.put(resource, img);
 
     return img;
@@ -39,7 +40,7 @@ public class BufferedImageContext {
     return null;
   }
 
-  private BufferedImage resizeTo32(BufferedImage img) {
+  private BufferedImage resizeTo32(final BufferedImage img) {
 
     final int newW = 32;
     final int newH = 32;
@@ -50,6 +51,23 @@ public class BufferedImageContext {
     g2d.drawImage(tmp, 0, 0, null);
     g2d.dispose();
     return dimg;
-  }  
+  }
+
+  private void replaceWhitePixels(final BufferedImage image){
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+
+    final int transparent = 0x00FFFFFF;
+    final int white = 0xffffffff;
+
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        if(image.getRGB(i, j) == white){
+          image.setRGB(i, j, transparent);
+        }
+      }
+    }
+
+  }
 
 }

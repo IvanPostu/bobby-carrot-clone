@@ -2,7 +2,6 @@ package com.utm.app.state;
 
 import javax.swing.JPanel;
 
-import com.utm.app.game.CurrentAppStateEnum;
 import com.utm.app.view.MainWindow;
 import com.utm.app.view.game.MainGame;
 import com.utm.app.view.menu.MainMenu;

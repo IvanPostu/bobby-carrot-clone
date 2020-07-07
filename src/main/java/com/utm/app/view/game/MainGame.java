@@ -61,7 +61,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
     super.paintComponent(g);
 
     Graphics2D g2 = image.createGraphics();
-    g2.setBackground(Color.WHITE);
+    g2.setBackground(Color.LIGHT_GRAY);
 
     gameWorld.render(g2);
     g.drawImage(
