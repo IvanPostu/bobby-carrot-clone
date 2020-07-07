@@ -13,11 +13,9 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 
 
-public class MainMenu extends JPanel implements ActionListener{
+public class MainMenu extends JPanel implements ActionListener {
 
   private static final long serialVersionUID = 4997689702344591993L;
-
-  private Timer timer;
 
   @InjectProperty("application.window.width")
   private int width;
@@ -55,13 +53,6 @@ public class MainMenu extends JPanel implements ActionListener{
     playButton.addActionListener(l -> {
       mainMenuController.playGame();
     });
-  }
-
-  @Override
-  public void addNotify(){
-      super.addNotify();
-      this.timer = new Timer(1000/60, this);
-      this.timer.start();
   }
 
   @Override

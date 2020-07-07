@@ -10,6 +10,8 @@ import java.util.List;
 
 public class GameWorld {
 
+  private static final int BLOCK_SIZE = 32;
+
   @InjectProperty("application.window.width")
   private int width;
   
@@ -19,15 +21,23 @@ public class GameWorld {
   @InjectByType
   private GameRoundState gameRoundState;
 
+  public int getRoundHeight(){
+    return (gameRoundState.currentRoundState().size() * BLOCK_SIZE) + 2;
+  }
+
+  public int getRoundWidth(){
+    return (gameRoundState.currentRoundState().get(0).length() * BLOCK_SIZE) + 2;
+  }
+
   public void render(Graphics2D g) {
-    g.clearRect(0, 0, width, height);
+    g.clearRect(0, 0, getRoundWidth(), getRoundHeight());
 
     List<String> round = gameRoundState.currentRoundState();
 
     for (int i = 0; i < round.size(); i++) {
       String line = round.get(i);
       for (int j = 0; j < line.length(); j++) {
-        g.drawRect(32*j, 32*i, 32, 32);
+        g.drawRect(BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE);
       }
     }
   }

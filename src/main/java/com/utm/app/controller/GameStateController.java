@@ -1,5 +1,7 @@
 package com.utm.app.controller;
 
+import javax.swing.JPanel;
+
 import com.utm.app.state.CurrentGameState;
 import com.utm.app.view.MainWindow;
 import com.utm.app.view.game.MainGame;
@@ -30,15 +32,21 @@ public class GameStateController {
   public void setGameState(CurrentGameState gameState){
     if(gameState.equals(CurrentGameState.MAIN_MENU)){
       mainWindow.remove(mainGameJFrame);
-      mainWindow.add(mainMenuJFrame);
+      addUIComponentToMainWindow(mainMenuJFrame);
     }
 
     if(gameState.equals(CurrentGameState.GAME)){
       mainWindow.remove(mainMenuJFrame);
-      mainWindow.add(mainGameJFrame);
+      addUIComponentToMainWindow(mainGameJFrame);
     }
 
     this.gameState = gameState;
+  }
+
+  private void addUIComponentToMainWindow(JPanel component){
+    mainWindow.add(component);
+    component.setFocusable(true);
+    component.requestFocus();
   }
 
 

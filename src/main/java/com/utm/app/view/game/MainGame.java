@@ -8,10 +8,9 @@ import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
 
 import java.awt.event.*;
-import java.awt.Color;
 import java.awt.image.VolatileImage;
 
-public class MainGame extends JPanel implements ActionListener {
+public class MainGame extends JPanel implements ActionListener, KeyListener {
 
   private static final long serialVersionUID = 4997689702344591993L;
 
@@ -28,6 +27,9 @@ public class MainGame extends JPanel implements ActionListener {
   @InjectProperty("application.window.height")
   private int height;
 
+  private int camXPos = 0;
+  private int camYPos = 0;
+
   public MainGame() {
     super();
   }
@@ -38,41 +40,74 @@ public class MainGame extends JPanel implements ActionListener {
     setBounds(0, 0, width, height);
     setFocusable(true);
     requestFocus();
+    addKeyListener(this);
   }
 
   private void update(){
-    
+    repaint();
   }
   
   @Override
   public void addNotify() {
     super.addNotify();
-    image = createVolatileImage((int)(width/1), (int)(height/1));
-    this.timer = new Timer(1000 / 60, this);
+    image = createVolatileImage(gameWorld.getRoundWidth(),gameWorld.getRoundHeight());
+    this.timer = new Timer(1000 / 70, this);
     this.timer.start();
+    
   }
 
   @Override
   public void paintComponent(Graphics g) {
-      super.paintComponent(g);
+    super.paintComponent(g);
 
-      Graphics2D g2 = image.createGraphics();
-      g2.setBackground(Color.WHITE);
-      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING	, RenderingHints.VALUE_ANTIALIAS_ON);
-      g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-      gameWorld.render(g2);
-      g.drawImage(this.image.getScaledInstance(width, height, Image.SCALE_FAST),
-              0, 0, null
-      );
+    Graphics2D g2 = image.createGraphics();
+    g2.setBackground(Color.WHITE);
+
+    gameWorld.render(g2);
+    g.drawImage(
+      this.image.getScaledInstance(
+        gameWorld.getRoundWidth(),gameWorld.getRoundHeight(), 
+        Image.SCALE_FAST
+      ),
+      camXPos, camYPos, null
+    );
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent event) {
+    update();
+  }
+
+  @Override
+  public void keyPressed(KeyEvent event) {
+    if(event.getKeyCode() == KeyEvent.VK_RIGHT){
+      camXPos-=5;
+    }
+
+    if(event.getKeyCode() == KeyEvent.VK_LEFT){
+      camXPos+=5;
+    }
+
+    if(event.getKeyCode() == KeyEvent.VK_UP){
+      camYPos+=5;
+    }
+
+    if(event.getKeyCode() == KeyEvent.VK_DOWN){
+      camYPos-=5;
+    }
+    update();
+
+    System.out.println("MainGame: click handled");
+  }
+
+  @Override
+  public void keyReleased(KeyEvent event) {
 
   }
 
-
   @Override
-  public void actionPerformed(ActionEvent arg0) {
-    update();
-    repaint();
+  public void keyTyped(KeyEvent event) {
+
   }
   
 }

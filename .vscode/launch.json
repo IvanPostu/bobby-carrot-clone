@@ -15,7 +15,6 @@
       "name": "Debug Project",
       "request": "launch",
       "mainClass": "com.utm.Main",
-      "projectName": "cybersecurity-forum"
     }
   ]
 }
