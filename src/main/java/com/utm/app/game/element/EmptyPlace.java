@@ -10,7 +10,7 @@ public class EmptyPlace extends GameObject {
 
   @Override
   public void render(Graphics2D g) {
-    g.drawImage(this.texture, x, y, null);
+    g.drawImage(this.texture, getXCalculatedPos(), getYCalculatedPos(), null);
   }
 
 }

@@ -3,9 +3,8 @@ package com.utm.app.game.element;
 import java.awt.Graphics2D;
 import java.awt.image.*;
 
-public class Rabbit extends GameObject {
-
-  Rabbit(int x, int y, BufferedImage texture) {
+public class Rock extends GameObject {
+  Rock(int x, int y, BufferedImage texture) {
     super(x, y, texture);
   }
 
@@ -13,5 +12,6 @@ public class Rabbit extends GameObject {
   public void render(Graphics2D g) {
     g.drawImage(this.texture, getXCalculatedPos(), getYCalculatedPos(), null);
   }
+
 
 }

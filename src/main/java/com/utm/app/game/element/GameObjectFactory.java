@@ -15,6 +15,7 @@ public class GameObjectFactory {
 
   public static enum ReturnType {
     RABBIT,
+    ROCK,
     EMPTY_RANDOM_PLACE
   } 
   
@@ -22,6 +23,8 @@ public class GameObjectFactory {
     switch(type){
       case RABBIT:
         return new Rabbit(x, y, imageContext.getBufferedImage(GameBlockEnum.RABBIT));
+      case ROCK:
+        return new Rock(x, y, imageContext.getBufferedImage(GameBlockEnum.ROCK));
       case EMPTY_RANDOM_PLACE:
         Random random = new Random();
         int randVal = random.nextInt(3);

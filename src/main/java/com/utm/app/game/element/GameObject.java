@@ -23,4 +23,20 @@ public abstract class GameObject {
     return this.walkable;
   }
 
+  protected int getXCalculatedPos(){
+    return x * gameObjectSize;
+  }
+
+  protected int getYCalculatedPos(){
+    return y * gameObjectSize;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
 }

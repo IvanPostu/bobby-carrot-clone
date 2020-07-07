@@ -6,7 +6,8 @@ public enum GameBlockEnum {
   CARROT("/images/carrot48.png", 'C'),
   GRASS_A("/images/grass48_A.png", '1'),
   GRASS_B("/images/grass48_B.png", '2'),
-  GRASS_C("/images/grass48_C.png", '3');
+  GRASS_C("/images/grass48_C.png", '3'),
+  ROCK_A("/images/rock48.png", ' '),;
 
   private String path;
   private char charId;

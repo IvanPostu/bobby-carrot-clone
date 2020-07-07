@@ -58,13 +58,17 @@ public class GameRoundState {
 
     for (char[] cs : roundFromFile) {
       List<GameObject> list = new ArrayList<>(cs.length);
-      y+=GameObject.gameObjectSize;
+      y++;
       x = 0;
 
       for (char c : cs) {
-        x+=GameObject.gameObjectSize;
+        x++;
         if(c == GameBlockEnum.RABBIT.getCharId()){
           list.add(gameObjectFactory.createGameObject(ReturnType.RABBIT, x, y));
+        }
+
+        if(c == GameBlockEnum.ROCK.getCharId() || c == GameBlockEnum.ROCK_A.getCharId()){
+          list.add(gameObjectFactory.createGameObject(ReturnType.ROCK, x, y));
         }
 
         this.place.add(
@@ -95,5 +99,9 @@ public class GameRoundState {
   public void setScale(float scale) {
     this.scale = scale;
   }
+
+  // private void createRoundBorder(){
+
+  // }
 
 }
