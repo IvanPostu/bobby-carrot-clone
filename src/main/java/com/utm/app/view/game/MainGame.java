@@ -97,7 +97,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
     }
     update();
 
-    System.out.println("MainGame: click handled");
+    // System.out.println("MainGame: click handled");
   }
 
   @Override

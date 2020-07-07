@@ -15,6 +15,7 @@ import com.utm.core.Singleton;
 public class GameRoundState {
   
   private List<String> round = new ArrayList<>();
+  private float scale = 1.0f;
 
   @PostConstruct
   public void init(){
@@ -22,7 +23,7 @@ public class GameRoundState {
 
       Stream<String> lines = null;
 
-      try(InputStream in = this.getClass().getResourceAsStream("/testround.txt")) {
+      try(InputStream in = this.getClass().getResourceAsStream("/rounds/round1.txt")) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         lines = reader.lines();
         Iterator<String> iter = lines.iterator();
@@ -42,9 +43,16 @@ public class GameRoundState {
     }
   }
 
-
-
   public List<String> currentRoundState(){
     return this.round;
   }
+
+  public float getScale() {
+    return scale;
+  }
+
+  public void setScale(float scale) {
+    this.scale = scale;
+  }
+
 }
