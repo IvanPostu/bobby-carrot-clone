@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +19,8 @@ import com.utm.core.InjectByType;
 
 public class RoundInitializer {
 
-
+  // @InjectByType
+  // private RoundSize roundSize;
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
@@ -53,6 +53,7 @@ public class RoundInitializer {
     Map<Point, List<GameObject>> result = new HashMap<>();
     List<char[]> roundFromFile = readRoundDataFromFile(currentRound);
     roundFromFile = addLimitRocks(roundFromFile);
+    calcRoundSize(roundFromFile);
 
     int y = 0;
     int x = 0;
@@ -128,10 +129,24 @@ public class RoundInitializer {
     result.add(0 , arr1);
     result.add(arr2);
 
-
     return result;
 
+  }
 
+  private void calcRoundSize(List<char[]> roundFromFile){
+    int width = roundFromFile
+      .stream()
+      .mapToInt(a -> a.length)
+      .max()
+      .getAsInt();
+
+    int height = roundFromFile.size();
+
+    width = (width + 1) * GameObject.gameObjectSize;
+    height = (height + 1) * GameObject.gameObjectSize;
+
+    // this.roundSize.setWidth(width);
+    // this.roundSize.setHeight(height);
   }
 
 }

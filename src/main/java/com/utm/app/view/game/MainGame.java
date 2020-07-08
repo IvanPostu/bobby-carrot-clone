@@ -3,6 +3,8 @@ package com.utm.app.view.game;
 import javax.swing.*;
 import java.awt.*;
 
+import com.utm.app.game.Camera;
+// import com.utm.app.game.round.RoundSize;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
@@ -29,6 +31,9 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
 
   @InjectByType
   private Camera camera;
+
+  // @InjectByType
+  // private RoundSize roundSize;
 
   public MainGame() {
     super();
@@ -80,25 +85,8 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
 
   @Override
   public void keyPressed(KeyEvent event) {
-    // if(event.getKeyCode() == KeyEvent.VK_RIGHT){
-    //   camXPos-=5;
-    // }
-
-    // if(event.getKeyCode() == KeyEvent.VK_LEFT){
-    //   camXPos+=5;
-    // }
-
-    // if(event.getKeyCode() == KeyEvent.VK_UP){
-    //   camYPos+=5;
-    // }
-
-    // if(event.getKeyCode() == KeyEvent.VK_DOWN){
-    //   camYPos-=5;
-    // }
     gameWorld.keyPressed(event);
     update();
-
-    // System.out.println("MainGame: click handled");
   }
 
   @Override

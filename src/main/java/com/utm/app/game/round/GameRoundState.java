@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.utm.app.Point;
+import com.utm.app.game.Camera;
 import com.utm.app.game.MoveDirection;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.Rabbit;
-import com.utm.app.view.game.Camera;
 import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
@@ -29,9 +29,7 @@ public class GameRoundState {
 
   private Map<Point, List<GameObject>> gameObjects;
   private float scale = 1.0f;
-
   private short eatableCount;
-
   private Rabbit rabbit;
 
   @PostConstruct

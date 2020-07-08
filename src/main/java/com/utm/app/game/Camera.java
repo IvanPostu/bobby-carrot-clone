@@ -1,4 +1,4 @@
-package com.utm.app.view.game;
+package com.utm.app.game;
 
 import com.utm.app.Point;
 import com.utm.app.game.element.GameObject;
