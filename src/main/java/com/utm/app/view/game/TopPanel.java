@@ -40,17 +40,24 @@ public class TopPanel extends JPanel implements ActionListener{
     setBackground(Color.GRAY);
     setFocusable(true);
     requestFocus();
+    this.timer = new Timer(1000 / 60, this);
+    this.secondTimer = new Timer(1000, (a) -> {
+      gameSeconds++;
+    });
   }
 
   @Override
   public void addNotify() {
     super.addNotify();
-    this.timer = new Timer(1000 / 60, this);
-    this.secondTimer = new Timer(1000, (a) -> {
-      gameSeconds++;
-    });
     this.timer.start();
     this.secondTimer.start();
+  }
+
+  @Override
+  public void removeNotify() {
+    super.removeNotify();
+    this.timer.stop();
+    this.secondTimer.stop();
   }
 
   @Override

@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import com.utm.app.view.MainWindow;
 import com.utm.app.view.game.MainGame;
 import com.utm.app.view.menu.MainMenu;
+import com.utm.app.view.message.NextRoundMessage;
 import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
@@ -21,6 +22,9 @@ public class ApplicationState {
   @InjectByType
   private MainWindow mainWindow;
 
+  @InjectByType
+  private NextRoundMessage nextRoundMessage;
+
   private CurrentAppStateEnum stateEnum; 
   
   @PostConstruct
@@ -30,13 +34,21 @@ public class ApplicationState {
   
   public void setApplicationState(CurrentAppStateEnum gameState){
     if(gameState.equals(CurrentAppStateEnum.MAIN_MENU)){
-      mainWindow.remove(mainGameJFrame);
+      mainWindow.getContentPane().removeAll();
+      mainWindow.repaint();
       addUIComponentToMainWindow(mainMenuJFrame);
     }
 
     if(gameState.equals(CurrentAppStateEnum.GAME)){
-      mainWindow.remove(mainMenuJFrame);
+      mainWindow.getContentPane().removeAll();
+      mainWindow.repaint();
       addUIComponentToMainWindow(mainGameJFrame);
+    }
+
+    if(gameState.equals(CurrentAppStateEnum.NEXT_ROUND_MSG)){
+      mainWindow.getContentPane().removeAll();
+      mainWindow.repaint();
+      addUIComponentToMainWindow(nextRoundMessage);
     }
 
     this.stateEnum = gameState;

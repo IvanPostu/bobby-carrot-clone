@@ -1,7 +1,7 @@
 package com.utm.app.view.game;
 
 import com.utm.app.game.MoveDirection;
-import com.utm.app.game.round.GameRoundState;
+import com.utm.app.game.round.RoundState;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 
@@ -18,7 +18,7 @@ public class GameWorld {
   private int height;
 
   @InjectByType
-  private GameRoundState gameRoundState;
+  private RoundState gameRoundState;
 
   public void keyPressed(KeyEvent event) {
     if(event.getKeyCode() == KeyEvent.VK_RIGHT){

@@ -44,6 +44,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
 
   @PostConstruct
   public void postConstruct() {
+    this.timer = new Timer(1000 / 60, this);
     setLayout(null);
     setBounds(0, 0, width, height);
     add(topPanel);
@@ -60,8 +61,13 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   public void addNotify() {
     super.addNotify();
     this.resetGameRoundSize(roundSize.getWidth(),roundSize.getHeight());
-    this.timer = new Timer(1000 / 60, this);
     this.timer.start();
+  }
+
+  @Override
+  public void removeNotify(){
+    super.removeNotify();
+    this.timer.stop();
   }
 
   public void resetGameRoundSize(int width, int height){
@@ -91,6 +97,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void actionPerformed(ActionEvent event) {
     update();
+    // // System.out.println("tick-tack");
   }
 
   @Override

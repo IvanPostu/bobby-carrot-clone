@@ -11,13 +11,18 @@ import com.utm.app.game.MoveDirection;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.Rabbit;
+import com.utm.app.state.ApplicationState;
+import com.utm.app.state.CurrentAppStateEnum;
 import com.utm.app.view.game.TopPanel;
 import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
 
 @Singleton
-public class GameRoundState {
+public class RoundState {
+
+  @InjectByType
+  private ApplicationState applicationState;
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
@@ -129,12 +134,20 @@ public class GameRoundState {
         return remov;
       });
 
+      topPanel.setEatableOnRound(this.eatableCount);
+
       if(this.eatableCount==0){
-        if(roundManager.hasNextRound()){
-          loadNextRound();
-        }
+        this.roundComplete();
       }
     }
+  }
+
+  private void roundComplete(){
+    applicationState.setApplicationState(CurrentAppStateEnum.NEXT_ROUND_MSG);
+    if(roundManager.hasNextRound()){
+      loadNextRound();
+    }
+
   }
 
   private void findRabbit(){
