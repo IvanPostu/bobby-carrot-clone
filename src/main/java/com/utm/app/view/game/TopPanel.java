@@ -28,7 +28,8 @@ public class TopPanel extends JPanel implements ActionListener{
   private Timer secondTimer;
 
   private int gameSeconds = 0;
-  private int currentRound;
+  private int currentRound = 0;
+  private int eatableOnRound = 0;
 
   private Font font = new Font ("Consolas", 1, 16);
 
@@ -57,7 +58,8 @@ public class TopPanel extends JPanel implements ActionListener{
     super.paintComponent(g);
     g.setFont(font);
     g.drawString(String.format("Round time: %d", this.gameSeconds), 15, 15);
-    g.drawString(String.format("Current round: %d", this.currentRound), 150, 15);
+    g.drawString(String.format("Current round: %d", this.currentRound), 190, 15);
+    g.drawString(String.format("Food on round: %d", this.eatableOnRound), 410, 15);
   }
 
 
@@ -72,5 +74,9 @@ public class TopPanel extends JPanel implements ActionListener{
 
   public void setCurrentRound(int currentRound) {
     this.currentRound = currentRound;
+  }
+
+  public void setEatableOnRound(int eatableOnRound) {
+    this.eatableOnRound = eatableOnRound;
   }
 }

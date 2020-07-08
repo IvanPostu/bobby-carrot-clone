@@ -48,6 +48,7 @@ public class GameRoundState {
     camera.setPoint(this.rabbit.getPoint());
     this.eatableCount = 0;
     this.calculateEatableCount();
+    topPanel.setEatableOnRound(this.eatableCount);
   }
 
   private void addGameObjectToRound(Point p, GameObject o){

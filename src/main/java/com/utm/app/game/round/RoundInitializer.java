@@ -15,6 +15,7 @@ import com.utm.app.game.element.EmptyPlace;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.GameObjectFactory.GameObjectType;
+import com.utm.app.view.game.MainGame;
 import com.utm.core.InjectByType; 
 
 public class RoundInitializer {
@@ -24,6 +25,9 @@ public class RoundInitializer {
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
+
+  @InjectByType
+  private MainGame mainGame;
 
   private List<char[]> readRoundDataFromFile(final int currentRound){
     List<char[]> round = new ArrayList<>();
@@ -145,8 +149,8 @@ public class RoundInitializer {
     width = (width + 1) * GameObject.gameObjectSize;
     height = (height + 1) * GameObject.gameObjectSize;
 
-    this.roundSize.setWidth(width);
-    this.roundSize.setHeight(height);
+    this.roundSize.setSize(width, height);
+
   }
 
 }

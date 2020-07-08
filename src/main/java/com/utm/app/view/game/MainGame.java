@@ -59,9 +59,13 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void addNotify() {
     super.addNotify();
-    image = createVolatileImage(roundSize.getWidth(),roundSize.getHeight());
-    this.timer = new Timer(1000 / 70, this);
+    this.resetGameRoundSize(roundSize.getWidth(),roundSize.getHeight());
+    this.timer = new Timer(1000 / 60, this);
     this.timer.start();
+  }
+
+  public void resetGameRoundSize(int width, int height){
+    image = createVolatileImage(width, height);
   }
 
   @Override

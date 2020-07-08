@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.utm.app.Point;
 import com.utm.app.game.element.GameObject;
+import com.utm.app.view.game.MainGame;
 import com.utm.app.view.game.TopPanel;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
@@ -21,6 +22,9 @@ public class RoundManager {
 
   @InjectByType
   private TopPanel topPanel;
+
+  @InjectByType 
+  private MainGame mainGame;
 
   private int currentRound = 0;
 
