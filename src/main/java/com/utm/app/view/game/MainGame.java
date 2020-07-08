@@ -5,7 +5,6 @@ import java.awt.*;
 
 import com.utm.app.game.Camera;
 import com.utm.app.game.round.RoundSize;
-// import com.utm.app.game.round.RoundSize;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
@@ -36,6 +35,9 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @InjectByType
   private RoundSize roundSize;
 
+  @InjectByType
+  private TopPanel topPanel;
+
   public MainGame() {
     super();
   }
@@ -44,6 +46,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   public void postConstruct() {
     setLayout(null);
     setBounds(0, 0, width, height);
+    add(topPanel);
     setFocusable(true);
     requestFocus();
     addKeyListener(this);
@@ -59,7 +62,6 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
     image = createVolatileImage(roundSize.getWidth(),roundSize.getHeight());
     this.timer = new Timer(1000 / 70, this);
     this.timer.start();
-    
   }
 
   @Override

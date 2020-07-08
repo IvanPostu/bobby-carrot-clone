@@ -11,6 +11,7 @@ import com.utm.app.game.MoveDirection;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.Rabbit;
+import com.utm.app.view.game.TopPanel;
 import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
@@ -31,6 +32,9 @@ public class GameRoundState {
   private float scale = 1.0f;
   private short eatableCount;
   private Rabbit rabbit;
+
+  @InjectByType
+  private TopPanel topPanel;
 
   @PostConstruct
   public void postConstruct(){

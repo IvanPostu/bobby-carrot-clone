@@ -20,8 +20,6 @@ public class GameWorld {
   @InjectByType
   private GameRoundState gameRoundState;
 
-
-
   public void keyPressed(KeyEvent event) {
     if(event.getKeyCode() == KeyEvent.VK_RIGHT){
       gameRoundState.moveRabbit(MoveDirection.RIGHT);
@@ -36,7 +34,7 @@ public class GameWorld {
       gameRoundState.moveRabbit(MoveDirection.DOWN);
     }
   }
-  
+
   public void render(Graphics2D g) {
     gameRoundState.render(g);
   }
