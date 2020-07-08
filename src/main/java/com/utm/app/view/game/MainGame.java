@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.utm.app.game.Camera;
+import com.utm.app.game.round.RoundSize;
 // import com.utm.app.game.round.RoundSize;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
@@ -32,8 +33,8 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @InjectByType
   private Camera camera;
 
-  // @InjectByType
-  // private RoundSize roundSize;
+  @InjectByType
+  private RoundSize roundSize;
 
   public MainGame() {
     super();
@@ -55,7 +56,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void addNotify() {
     super.addNotify();
-    image = createVolatileImage(gameWorld.getRoundWidth(),gameWorld.getRoundHeight());
+    image = createVolatileImage(roundSize.getWidth(),roundSize.getHeight());
     this.timer = new Timer(1000 / 70, this);
     this.timer.start();
     
@@ -64,14 +65,17 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-
+    if(image.getHeight() != roundSize.getHeight() || image.getWidth() != roundSize.getWidth()){
+      image = createVolatileImage(roundSize.getWidth(),roundSize.getHeight());
+    }
+    
     Graphics2D g2 = image.createGraphics();
-    g2.setBackground(Color.LIGHT_GRAY);
+    g2.setBackground(Color.BLACK);
 
     gameWorld.render(g2);
     g.drawImage(
       this.image.getScaledInstance(
-        gameWorld.getRoundWidth(),gameWorld.getRoundHeight(), 
+        roundSize.getWidth(), roundSize.getHeight(),
         Image.SCALE_FAST
       ),
       camera.getX(), camera.getY(), null

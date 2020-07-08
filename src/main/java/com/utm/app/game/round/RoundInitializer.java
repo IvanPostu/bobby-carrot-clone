@@ -19,8 +19,8 @@ import com.utm.core.InjectByType;
 
 public class RoundInitializer {
 
-  // @InjectByType
-  // private RoundSize roundSize;
+  @InjectByType
+  private RoundSize roundSize;
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
@@ -145,8 +145,8 @@ public class RoundInitializer {
     width = (width + 1) * GameObject.gameObjectSize;
     height = (height + 1) * GameObject.gameObjectSize;
 
-    // this.roundSize.setWidth(width);
-    // this.roundSize.setHeight(height);
+    this.roundSize.setWidth(width);
+    this.roundSize.setHeight(height);
   }
 
 }

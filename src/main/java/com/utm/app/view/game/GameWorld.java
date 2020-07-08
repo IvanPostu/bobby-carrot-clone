@@ -20,8 +20,7 @@ public class GameWorld {
   @InjectByType
   private GameRoundState gameRoundState;
 
-  // @InjectByType
-  // private RoundSize roundSize;
+
 
   public void keyPressed(KeyEvent event) {
     if(event.getKeyCode() == KeyEvent.VK_RIGHT){
@@ -37,19 +36,8 @@ public class GameWorld {
       gameRoundState.moveRabbit(MoveDirection.DOWN);
     }
   }
-
-  public int getRoundHeight(){
-    // TODO Fix me!!!!!
-    return width * 3;//(gameRoundState.getRoundHeight() * BLOCK_SIZE) + 1;
-  }
-
-  public int getRoundWidth(){
-    // TODO Fix me!!!!!
-    return height * 3;//(gameRoundState.getRoundWidth() * BLOCK_SIZE) + 1;
-  }
-
+  
   public void render(Graphics2D g) {
-    g.clearRect(0, 0, width*2, height*2);
     gameRoundState.render(g);
   }
   
