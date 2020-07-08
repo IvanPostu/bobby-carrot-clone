@@ -27,8 +27,8 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @InjectProperty("application.window.height")
   private int height;
 
-  private int camXPos = 0;
-  private int camYPos = 0;
+  @InjectByType
+  private Camera camera;
 
   public MainGame() {
     super();
@@ -69,7 +69,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
         gameWorld.getRoundWidth(),gameWorld.getRoundHeight(), 
         Image.SCALE_FAST
       ),
-      camXPos, camYPos, null
+      camera.getX(), camera.getY(), null
     );
   }
 
@@ -80,21 +80,21 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
 
   @Override
   public void keyPressed(KeyEvent event) {
-    if(event.getKeyCode() == KeyEvent.VK_RIGHT){
-      camXPos-=5;
-    }
+    // if(event.getKeyCode() == KeyEvent.VK_RIGHT){
+    //   camXPos-=5;
+    // }
 
-    if(event.getKeyCode() == KeyEvent.VK_LEFT){
-      camXPos+=5;
-    }
+    // if(event.getKeyCode() == KeyEvent.VK_LEFT){
+    //   camXPos+=5;
+    // }
 
-    if(event.getKeyCode() == KeyEvent.VK_UP){
-      camYPos+=5;
-    }
+    // if(event.getKeyCode() == KeyEvent.VK_UP){
+    //   camYPos+=5;
+    // }
 
-    if(event.getKeyCode() == KeyEvent.VK_DOWN){
-      camYPos-=5;
-    }
+    // if(event.getKeyCode() == KeyEvent.VK_DOWN){
+    //   camYPos-=5;
+    // }
     gameWorld.keyPressed(event);
     update();
 
