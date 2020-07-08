@@ -62,7 +62,7 @@ public class GameRoundState {
     this.scale = scale;
   }
 
-  public void moveRabbitRight(MoveDirection dir){
+  public void moveRabbit(MoveDirection dir){
     Point rabitLocation = rabbit.getPoint();
     Point nextLocation = null;
 
@@ -87,9 +87,20 @@ public class GameRoundState {
           .allMatch(a -> a.isWalkable());
 
     if(moveIsPossible){
+
+      /**
+       * Detele rabit from last position.
+       * Create rabbit on new position.
+       */
       this.gameObjects.get(rabitLocation).removeIf(a -> a instanceof Rabbit);
       rabbit.setPoint(nextLocation);
       addGameObjectToRound(nextLocation, rabbit);
+
+      /**
+       * Eat all eatable game objects.
+       */
+      nextLocObjects.removeIf(a -> a.isEatable());
+
     }
   }
 
@@ -98,7 +109,7 @@ public class GameRoundState {
       for (GameObject gameObject : v) {
         if(gameObject instanceof Rabbit){
           if(this.rabbit != null){
-            throw new RuntimeException("Зайцев на карте может быть только 1 шт.");
+            throw new RuntimeException("Max rabbits count: 1");
           }
           this.rabbit = (Rabbit)gameObject;
         }

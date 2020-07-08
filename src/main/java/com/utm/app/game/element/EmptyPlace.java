@@ -9,6 +9,7 @@ public class EmptyPlace extends GameObject {
   EmptyPlace(Point p, BufferedImage texture) {
     super(p, texture);
     this.walkable = true;
+    this.eatable = false;
   }
 
   @Override

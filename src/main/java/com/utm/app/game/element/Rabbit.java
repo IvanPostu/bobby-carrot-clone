@@ -10,6 +10,7 @@ public class Rabbit extends GameObject {
   Rabbit(Point p, BufferedImage texture) {
     super(p, texture);
     this.walkable = false;
+    this.eatable = false;
   }
 
   @Override

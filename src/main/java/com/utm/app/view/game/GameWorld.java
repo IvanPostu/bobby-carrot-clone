@@ -22,16 +22,16 @@ public class GameWorld {
 
   public void keyPressed(KeyEvent event) {
     if(event.getKeyCode() == KeyEvent.VK_RIGHT){
-      gameRoundState.moveRabbitRight(MoveDirection.RIGHT);
+      gameRoundState.moveRabbit(MoveDirection.RIGHT);
     }
     if(event.getKeyCode() == KeyEvent.VK_LEFT){
-      gameRoundState.moveRabbitRight(MoveDirection.LEFT);
+      gameRoundState.moveRabbit(MoveDirection.LEFT);
     }
     if(event.getKeyCode() == KeyEvent.VK_UP){
-      gameRoundState.moveRabbitRight(MoveDirection.UP);
+      gameRoundState.moveRabbit(MoveDirection.UP);
     }
     if(event.getKeyCode() == KeyEvent.VK_DOWN){
-      gameRoundState.moveRabbitRight(MoveDirection.DOWN);
+      gameRoundState.moveRabbit(MoveDirection.DOWN);
     }
   }
 

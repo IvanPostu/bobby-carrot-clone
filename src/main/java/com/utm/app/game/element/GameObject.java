@@ -9,6 +9,7 @@ public abstract class GameObject {
   protected Point p;
   protected int width, height;
   protected boolean walkable;
+  protected boolean eatable;
   protected BufferedImage texture;
 
   public static int gameObjectSize = 32;
@@ -22,6 +23,10 @@ public abstract class GameObject {
 
   public boolean isWalkable(){
     return this.walkable;
+  }
+
+  public boolean isEatable() {
+    return eatable;
   }
 
   protected int getXCalculatedPos(){

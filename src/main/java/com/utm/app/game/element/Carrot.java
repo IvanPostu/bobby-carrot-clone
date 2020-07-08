@@ -10,6 +10,7 @@ public class Carrot extends GameObject {
   Carrot(Point p, BufferedImage texture) {
     super(p, texture);
     this.walkable = true;
+    this.eatable = true;
   }
 
   @Override
