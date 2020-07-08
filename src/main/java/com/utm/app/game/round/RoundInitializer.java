@@ -15,13 +15,11 @@ import com.utm.app.game.element.EmptyPlace;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.GameObjectFactory.GameObjectType;
-import com.utm.core.InjectByType;
-import com.utm.core.InjectProperty;
+import com.utm.core.InjectByType; 
 
 public class RoundInitializer {
 
-  @InjectProperty("application.game.totalrounds")
-  private int totalRounds;
+
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
@@ -67,15 +65,11 @@ public class RoundInitializer {
         Point p = new Point(x,y);
         List<GameObject> objectsOnPoint = new ArrayList<>(); 
 
-        /**
-         * Создает землю для каждой точки
-         */
-        // objectsOnPoint.add(gameObjectFactory
-        //   .createGameObject(GameObjectType.EMPTY_RANDOM_PLACE.getIdChars()[0], p)
-        // );
-
         GameObject gameObject = gameObjectFactory.createGameObject(c, p);
 
+        /**
+         * Если объект игры то создает пустое место под ним.
+         */
         if(gameObject instanceof EmptyPlace == false){
           objectsOnPoint.add(gameObjectFactory
             .createGameObject(GameObjectType.EMPTY_RANDOM_PLACE.getIdChars()[0], p)

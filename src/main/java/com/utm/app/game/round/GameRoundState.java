@@ -21,17 +21,26 @@ public class GameRoundState {
   private GameObjectFactory gameObjectFactory;
 
   @InjectByType
-  private RoundInitializer roundInitializer;
+  private RoundManager roundManager;
 
   private Map<Point, List<GameObject>> gameObjects;
   private float scale = 1.0f;
 
+  private short eatableCount;
+
   private Rabbit rabbit;
 
   @PostConstruct
-  public void init(){
-    this.gameObjects = roundInitializer.initGameObjects(1);
+  public void postConstruct(){
+    loadNextRound();
+  }
+
+  private void loadNextRound(){
+    this.gameObjects = roundManager.nextRound();
+    this.rabbit = null;
     this.findRabbit();
+    this.eatableCount = 0;
+    this.calculateEatableCount();
   }
 
   private void addGameObjectToRound(Point p, GameObject o){
@@ -97,10 +106,21 @@ public class GameRoundState {
       addGameObjectToRound(nextLocation, rabbit);
 
       /**
-       * Eat all eatable game objects.
+       * Eat all eatable game objects on new position.
        */
-      nextLocObjects.removeIf(a -> a.isEatable());
+      nextLocObjects.removeIf(a -> {
+        boolean remov = a.isEatable();
+        if (remov){
+          this.eatableCount--;
+        }
+        return remov;
+      });
 
+      if(this.eatableCount==0){
+        if(roundManager.hasNextRound()){
+          loadNextRound();
+        }
+      }
     }
   }
 
@@ -112,6 +132,16 @@ public class GameRoundState {
             throw new RuntimeException("Max rabbits count: 1");
           }
           this.rabbit = (Rabbit)gameObject;
+        }
+      }
+    });
+  }
+
+  private void calculateEatableCount(){
+    gameObjects.forEach((k, v) -> {
+      for (GameObject gameObject : v) {
+        if(gameObject.isEatable()){
+          this.eatableCount++;
         }
       }
     });
