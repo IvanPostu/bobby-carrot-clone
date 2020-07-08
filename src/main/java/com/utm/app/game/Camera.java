@@ -16,7 +16,7 @@ public class Camera {
 
   private Point p = new Point(0, 0);
 
-  public void setPoint(Point newPoint){
+  public void setPointAprox(Point newPoint){
     final int BLOCK_SIZE = GameObject.gameObjectSize;
     final int LIMIT = BLOCK_SIZE*2;
 
@@ -31,13 +31,20 @@ public class Camera {
     boolean yExtern = Math.max(Math.abs(newY), Math.abs(oldY)) - Math.min(Math.abs(newY), Math.abs(oldY)) > LIMIT;
 
     if(xExtern){
-      this.p = new Point(newX, oldY);
+      this.p = new Point(newX, this.p.getY());
     }
 
     if(yExtern){
-      this.p = new Point(oldX, newY);
+      this.p = new Point(this.p.getX(), newY);
     }
 
+  }
+
+  public void setPoint(Point newPoint){
+    final int BLOCK_SIZE = GameObject.gameObjectSize;
+    final int newX = -newPoint.getX()*BLOCK_SIZE + windowWidth / 2 - BLOCK_SIZE / 2;
+    final int newY = -newPoint.getY()*BLOCK_SIZE + windowHeight / 2 - BLOCK_SIZE / 2;
+    this.p = new Point(newX, newY);
   }
 
   public int getX(){

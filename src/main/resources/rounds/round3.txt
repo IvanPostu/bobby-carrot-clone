@@ -1,13 +1,18 @@
-oooooCoooooo
-ooZoooooooooRR
-CoRRRRoooooo
-ooooRRoooooo
-oooooRoooooo
+oooooCoooooooRooooRooooRooo
+ooZoooooooooRRoRooooRooooRooo
+oRooooRooooRooooRooo
+oRooooRooooRooooRooooRooooRooooRooo
+oRooooRooooRooooRooooRooo
+oRooooRooooRooooRooooRooooRooooRooo
+oRooooRooooRooooRooooRooooRooo
+CoRRRRoooooooRooooRooooRooo
+ooooRRoooooooRooooRooooRooooRooo
+oooooRoooooooRooooRooooRooooRooo
 ooooooooooooRR
-oooooRoooooo
-ooooooooRooooo
-oooooooooooo
-oooooooooooo
+oooooRoooooooRooooRooooRooooRooo
+ooooooooRooooooRooooRooooRooooRooo
+oooooooooooooRooooRooooRooooRooo
+oooooooooooooRooooRooooRooooRooo
 ooooooooooooo
 oooooooooooo
 ooo  ooo  oooR

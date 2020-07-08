@@ -56,6 +56,8 @@ public class RoundState {
     topPanel.setEatableOnRound(this.eatableCount);
   }
 
+
+
   private void addGameObjectToRound(Point p, GameObject o){
     List<GameObject> objectsOnPoint = this.gameObjects.get(p);
 
@@ -121,7 +123,7 @@ public class RoundState {
       /**
        * Move camera
        */
-      camera.setPoint(this.rabbit.getPoint());
+      camera.setPointAprox(this.rabbit.getPoint());
 
       /**
        * Eat all eatable game objects on new position.

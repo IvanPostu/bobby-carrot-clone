@@ -54,42 +54,10 @@ public class RoundInitializer {
   }
 
   Map<Point, List<GameObject>> initGameObjects(int currentRound){
-    Map<Point, List<GameObject>> result = new HashMap<>();
     List<char[]> roundFromFile = readRoundDataFromFile(currentRound);
     roundFromFile = addLimitRocks(roundFromFile);
     calcRoundSize(roundFromFile);
-
-    int y = 0;
-    int x = 0;
-
-    for (char[] cs : roundFromFile) {
-      y++;
-      x = 0;
-
-      for (char c : cs) {
-        x++;
-
-        Point p = new Point(x,y);
-        List<GameObject> objectsOnPoint = new ArrayList<>(); 
-
-        GameObject gameObject = gameObjectFactory.createGameObject(c, p);
-
-        /**
-         * Если объект игры то создает пустое место под ним.
-         */
-        if(gameObject instanceof EmptyPlace == false){
-          objectsOnPoint.add(gameObjectFactory
-            .createGameObject(GameObjectType.EMPTY_RANDOM_PLACE.getIdChars()[0], p)
-          );
-        }
-
-        objectsOnPoint.add(gameObject);
-
-        result.put(p, objectsOnPoint);
-        
-      }
-      
-    }
+    Map<Point, List<GameObject>> result = convertCharsToGameObjects(roundFromFile);
 
     return result;
   }
@@ -151,6 +119,45 @@ public class RoundInitializer {
 
     this.roundSize.setSize(width, height);
 
+  }
+
+  private Map<Point, List<GameObject>> convertCharsToGameObjects(List<char[]> roundFromFile){
+
+    Map<Point, List<GameObject>> result = new HashMap<>();
+
+    int y = 0;
+    int x = 0;
+
+    for (char[] cs : roundFromFile) {
+      y++;
+      x = 0;
+
+      for (char c : cs) {
+        x++;
+
+        Point p = new Point(x,y);
+        List<GameObject> objectsOnPoint = new ArrayList<>(); 
+
+        GameObject gameObject = gameObjectFactory.createGameObject(c, p);
+
+        /**
+         * Если объект игры то создает пустое место под ним.
+         */
+        if(gameObject instanceof EmptyPlace == false){
+          objectsOnPoint.add(gameObjectFactory
+            .createGameObject(GameObjectType.EMPTY_RANDOM_PLACE.getIdChars()[0], p)
+          );
+        }
+
+        objectsOnPoint.add(gameObject);
+
+        result.put(p, objectsOnPoint);
+        
+      }
+      
+    }
+
+    return result;
   }
 
 }

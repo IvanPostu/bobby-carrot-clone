@@ -32,6 +32,9 @@ public class NextRoundMessage extends JPanel implements ActionListener {
 
   private final Font font = new Font ("Consolas", 1, 26);
 
+  @InjectProperty("application.game.nextlevel.time")
+  private int timeInSecondsFromResource;
+
   private int timeInSeconds;
 
   public NextRoundMessage() {
@@ -57,7 +60,7 @@ public class NextRoundMessage extends JPanel implements ActionListener {
   @Override
   public void addNotify() {
     super.addNotify();
-    this.timeInSeconds = 4;
+    this.timeInSeconds = timeInSecondsFromResource;
     this.timer.start();
     this.secondTimer.start();
   }
