@@ -5,8 +5,9 @@ import java.awt.image.*;
 
 import com.utm.app.Point;
 
-public class EmptyPlace extends GameObject {
-  EmptyPlace(Point p, BufferedImage texture) {
+public class Carrot extends GameObject {
+
+  Carrot(Point p, BufferedImage texture) {
     super(p, texture);
     this.walkable = true;
   }
@@ -15,5 +16,5 @@ public class EmptyPlace extends GameObject {
   public void render(Graphics2D g) {
     g.drawImage(this.texture, getXCalculatedPos(), getYCalculatedPos(), null);
   }
-
+  
 }

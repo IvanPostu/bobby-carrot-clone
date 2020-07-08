@@ -95,6 +95,7 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
     if(event.getKeyCode() == KeyEvent.VK_DOWN){
       camYPos-=5;
     }
+    gameWorld.keyPressed(event);
     update();
 
     // System.out.println("MainGame: click handled");

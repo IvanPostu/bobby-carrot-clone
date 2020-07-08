@@ -1,19 +1,11 @@
 package com.utm.app;
 
 public class Point {
-  private int x;
-  private int y;
+  private final int x;
+  private final int y;
 
   public Point(int x, int y){
     this.x = x;
-    this.y = y;
-  }
-
-  public void setX(int x) {
-    this.x = x;
-  }
-
-  public void setY(int y) {
     this.y = y;
   }
 
@@ -26,6 +18,11 @@ public class Point {
   }
 
   @Override
+  public String toString() {
+    return String.format("Point { x:%s, y:%s }", this.x, this.y);
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj)
 		  return true;
@@ -33,7 +30,8 @@ public class Point {
       return false;
     if (this.getClass() != obj.getClass())
       return false;
-	  Point point = (Point) obj;
+
+    Point point = (Point) obj;
   
     if (point.getX() != this.getX()) 
       return false;
@@ -42,4 +40,11 @@ public class Point {
 
 	  return true;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    return x * prime + y;
+  }
+
 }

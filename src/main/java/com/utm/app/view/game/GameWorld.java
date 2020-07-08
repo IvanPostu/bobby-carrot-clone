@@ -1,9 +1,12 @@
 package com.utm.app.view.game;
 
-import com.utm.app.game.GameRoundState;
+import com.utm.app.game.MoveDirection;
+import com.utm.app.game.round.GameRoundState;
 import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 
+
+import java.awt.event.*;
 import java.awt.*;
 
 public class GameWorld {
@@ -16,6 +19,21 @@ public class GameWorld {
 
   @InjectByType
   private GameRoundState gameRoundState;
+
+  public void keyPressed(KeyEvent event) {
+    if(event.getKeyCode() == KeyEvent.VK_RIGHT){
+      gameRoundState.moveRabbitRight(MoveDirection.RIGHT);
+    }
+    if(event.getKeyCode() == KeyEvent.VK_LEFT){
+      gameRoundState.moveRabbitRight(MoveDirection.LEFT);
+    }
+    if(event.getKeyCode() == KeyEvent.VK_UP){
+      gameRoundState.moveRabbitRight(MoveDirection.UP);
+    }
+    if(event.getKeyCode() == KeyEvent.VK_DOWN){
+      gameRoundState.moveRabbitRight(MoveDirection.DOWN);
+    }
+  }
 
   public int getRoundHeight(){
     // TODO Fix me!!!!!
@@ -30,21 +48,6 @@ public class GameWorld {
   public void render(Graphics2D g) {
     g.clearRect(0, 0, getRoundWidth(), getRoundHeight());
     gameRoundState.render(g);
-    // g.drawImage(imageContext.getBufferedImage(GameBlockEnum.RABBIT_IMAGE), 64, 64, null);
-    // List<char[]> round = gameRoundState.currentRoundState();
-
-    // for (int i = 0; i < round.size(); i++) {
-    //   char[] line = round.get(i);
-    //   for (int j = 0; j < line.length; j++) {
-    //     g.setColor(Color.GRAY);
-        
-    //     g.drawImage(imageContext.getBufferedImage(GameBlockEnum.GRASS_A), 
-    //       BLOCK_SIZE*j, BLOCK_SIZE*i, null);
-
-    //     this.drawBlockIfPresent(line[j], g, BLOCK_SIZE*j, BLOCK_SIZE*i);
-    //   }
-    // }
   }
-
   
 }
