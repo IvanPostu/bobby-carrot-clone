@@ -2,7 +2,6 @@
   "eslint.workingDirectories": ["./frontend", "./worker", "./crawler"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
-    
   },
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/frontend/src"
@@ -27,18 +26,18 @@
   "breadcrumbs.enabled": true,
   "terminal.integrated.fontFamily": "Fira Code Medium",
   "terminal.integrated.fontSize": 10,
-  "editor.minimap.scale": 3 ,
+  "editor.minimap.scale": 3,
+  "editor.minimap.enabled": false,
   "editor.codeLens": false,
   "editor.cursorBlinking": "smooth",
   "editor.cursorStyle": "line",
-  "editor.fontSize": 16,
+  "editor.fontSize": 13,
   "editor.fontFamily": "Fira Code Medium",
   "editor.fontLigatures": true,
   "editor.formatOnPaste": false,
   "editor.formatOnType": false,
   "editor.letterSpacing": 0.2,
-  "editor.lineHeight": 17,
-  "editor.minimap.enabled": false,
+  "editor.lineHeight": 16,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,

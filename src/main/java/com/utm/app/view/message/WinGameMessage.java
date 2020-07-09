@@ -6,16 +6,20 @@ import com.utm.app.state.CurrentAppStateEnum;
 import com.utm.core.InjectProperty;
 
 
-public class NextRoundMessage extends FullScreenMessageWithTimeout {
+public class WinGameMessage extends FullScreenMessageWithTimeout {
 
-  private static final long serialVersionUID = 795643169384749507L;
+  private static final long serialVersionUID = 1033834214702847590L;
 
-  @InjectProperty("application.game.nextroundmessage.time")
+  @InjectProperty("application.game.wingamemessage.time")
   private int timeInSecondsFromResource;
 
   @Override
   protected String getMessage() {
-    return String.format("NEXT ROUND AFTER %d second(s)", this.timeInSeconds);
+    final String msg1 = "Congratulations, you won!!!";
+    final String msg2 = String.format("Back to menu after %d second(s)", 
+      this.timeInSeconds);
+
+    return msg1 + '\n' + msg2;
   }
 
   @Override

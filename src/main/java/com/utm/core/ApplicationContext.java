@@ -33,7 +33,7 @@ public class ApplicationContext {
 
     factory.configure(t);
 
-    factory.invokeInit(implClass, t);
+    factory.callInvokeInitChainOnInheritanceHierarchy(implClass, t);
 
 
     return t;

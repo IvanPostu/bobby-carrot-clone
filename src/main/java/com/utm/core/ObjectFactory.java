@@ -1,6 +1,7 @@
 package com.utm.core;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,17 +41,26 @@ public class ObjectFactory {
     return t;
   }
 
-  public void invokeInit(Class<?> implClass, Object t) {
+  public void callInvokeInitChainOnInheritanceHierarchy(Class<?> implClass, Object t) {
 
-    for (Method method : implClass.getMethods()) {
-      if (method.isAnnotationPresent(PostConstruct.class)) {
-        try {
-          method.invoke(t);
-        } catch (Exception e) {
-          e.printStackTrace();
+    List<Class<?>> inheritanceHierarchy = Utils.getClassInheritanceHierarchy(implClass);
+    Iterator<Class<?>> linkedListIterator = inheritanceHierarchy.iterator();
+
+    while(linkedListIterator.hasNext()){
+      Class<?> temp = linkedListIterator.next();
+      
+      for (Method method : temp.getDeclaredMethods()) {
+        if (method.isAnnotationPresent(PostConstruct.class)) {
+          try {
+            method.setAccessible(true);
+            method.invoke(t);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
     }
+
   }
 
   private <T> T create(Class<T> implClass) throws Exception {

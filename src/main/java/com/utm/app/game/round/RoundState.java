@@ -11,8 +11,6 @@ import com.utm.app.game.MoveDirection;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.Rabbit;
-import com.utm.app.state.ApplicationState;
-import com.utm.app.state.CurrentAppStateEnum;
 import com.utm.app.view.game.TopPanel;
 import com.utm.core.InjectByType;
 import com.utm.core.PostConstruct;
@@ -20,9 +18,6 @@ import com.utm.core.Singleton;
 
 @Singleton
 public class RoundState {
-
-  @InjectByType
-  private ApplicationState applicationState;
 
   @InjectByType
   private GameObjectFactory gameObjectFactory;
@@ -34,7 +29,6 @@ public class RoundState {
   private Camera camera;
 
   private Map<Point, List<GameObject>> gameObjects;
-  private float scale = 1.0f;
   private short eatableCount;
   private Rabbit rabbit;
 
@@ -43,10 +37,10 @@ public class RoundState {
 
   @PostConstruct
   public void postConstruct(){
-    loadNextRound();
+    initNewRound();
   }
 
-  private void loadNextRound(){
+  private void initNewRound(){
     this.gameObjects = roundManager.nextRound();
     this.rabbit = null;
     this.findRabbit();
@@ -55,8 +49,6 @@ public class RoundState {
     this.calculateEatableCount();
     topPanel.setEatableOnRound(this.eatableCount);
   }
-
-
 
   private void addGameObjectToRound(Point p, GameObject o){
     List<GameObject> objectsOnPoint = this.gameObjects.get(p);
@@ -76,14 +68,6 @@ public class RoundState {
         gameObject.render(g);
       }
     });
-  }
-
-  public float getScale() {
-    return scale;
-  }
-
-  public void setScale(float scale) {
-    this.scale = scale;
   }
 
   public void moveRabbit(MoveDirection dir){
@@ -146,11 +130,11 @@ public class RoundState {
   }
 
   private void roundComplete(){
-    applicationState.setApplicationState(CurrentAppStateEnum.NEXT_ROUND_MSG);
-    if(roundManager.hasNextRound()){
-      loadNextRound();
+    roundManager.manageRoundCompleteEvent();
+    boolean hasNextRound = roundManager.hasNextRound();
+    if(hasNextRound){
+      initNewRound();
     }
-
   }
 
   private void findRabbit(){

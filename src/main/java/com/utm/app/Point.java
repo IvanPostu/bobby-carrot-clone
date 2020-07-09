@@ -1,5 +1,8 @@
 package com.utm.app;
 
+/**
+ * Immutable Point.
+ */
 public class Point {
   private final int x;
   private final int y;

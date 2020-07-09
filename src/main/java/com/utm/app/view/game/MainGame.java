@@ -77,9 +77,6 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    if(image.getHeight() != roundSize.getHeight() || image.getWidth() != roundSize.getWidth()){
-      image = createVolatileImage(roundSize.getWidth(),roundSize.getHeight());
-    }
     
     Graphics2D g2 = image.createGraphics();
     g2.setBackground(Color.BLACK);
