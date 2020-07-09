@@ -7,6 +7,7 @@ import java.awt.Color;
 import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
+import com.utm.app.Point;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -18,11 +19,16 @@ public class TopPanel extends JPanel implements ActionListener{
   
   private static final long serialVersionUID = 6116031675210364255L;
 
-  @InjectProperty("application.game.scorepanel.width")
+  @InjectProperty("application.window.width")
   private int width;
 
-  @InjectProperty("application.game.scorepanel.height")
+  /**
+   * Set on init method.
+   */
   private int height;
+
+  @InjectProperty("application.isdebug")
+  private boolean isDebug;
 
   private Timer timer;
   private Timer secondTimer;
@@ -31,13 +37,16 @@ public class TopPanel extends JPanel implements ActionListener{
   private int currentRound = 0;
   private int eatableOnRound = 0;
 
-  private Font font = new Font ("Consolas", 1, 16);
+  private Font font = new Font ("Consolas", 1, 17);
+
+  private Point rabbitPos = new Point(0,0);
 
   @PostConstruct
   public void postConstruct() {
+    this.height = isDebug ? 40 : 20;
     setLayout(null);
     setBounds(0, 0, width, height);
-    setBackground(Color.GRAY);
+    setBackground(new Color(128,128,128,192));
     setFocusable(true);
     requestFocus();
     this.timer = new Timer(1000 / 60, this);
@@ -67,6 +76,10 @@ public class TopPanel extends JPanel implements ActionListener{
     g.drawString(String.format("Round time: %d", this.gameSeconds), 15, 15);
     g.drawString(String.format("Current round: %d", this.currentRound), 190, 15);
     g.drawString(String.format("Food on round: %d", this.eatableOnRound), 410, 15);
+    if(isDebug){
+      g.drawString(String.format("Rabbit position X:%d Y:%d", 
+        rabbitPos.getX(), rabbitPos.getY()),15, 35);
+    }
   }
 
 
@@ -85,5 +98,9 @@ public class TopPanel extends JPanel implements ActionListener{
 
   public void setEatableOnRound(int eatableOnRound) {
     this.eatableOnRound = eatableOnRound;
+  }
+
+  public void setRabbitPos(Point pos){
+    this.rabbitPos = pos;
   }
 }

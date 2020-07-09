@@ -137,6 +137,7 @@ public class RoundState {
       });
 
       topPanel.setEatableOnRound(this.eatableCount);
+      topPanel.setRabbitPos(rabbit.getPoint());
 
       if(this.eatableCount==0){
         this.roundComplete();
@@ -157,9 +158,10 @@ public class RoundState {
       for (GameObject gameObject : v) {
         if(gameObject instanceof Rabbit){
           if(this.rabbit != null){
-            throw new RuntimeException("Max rabbits count: 1");
+            throw new RuntimeException("Max rabbits count is 1, please update your roundfile.");
           }
           this.rabbit = (Rabbit)gameObject;
+          topPanel.setRabbitPos(rabbit.getPoint());
         }
       }
     });

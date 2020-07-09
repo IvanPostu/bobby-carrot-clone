@@ -55,6 +55,11 @@ public class InjectPropertyAnnotationObjectConfigurator implements ObjectConfigu
             field.set(t, n);
           }
 
+          if(fieldType.equals(boolean.class) || fieldType.equals(Boolean.class)){
+            boolean boolVal = Boolean.parseBoolean(value);
+            field.set(t, boolVal);
+          }
+
           if(fieldType.equals(String.class)){
             field.set(t, value);
           }

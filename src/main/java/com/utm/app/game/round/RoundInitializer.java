@@ -39,8 +39,6 @@ public class RoundInitializer {
       Stream<String> lines = reader.lines();
       Iterator<String> iter = lines.iterator();
 
-      
-
       while(iter.hasNext()){
         String s = iter.next();
         round.add(s.toCharArray());
@@ -53,7 +51,7 @@ public class RoundInitializer {
     return round;
   }
 
-  Map<Point, List<GameObject>> initGameObjects(int currentRound){
+  public Map<Point, List<GameObject>> initGameObjects(int currentRound){
     List<char[]> roundFromFile = readRoundDataFromFile(currentRound);
     roundFromFile = addLimitRocks(roundFromFile);
     calcRoundSize(roundFromFile);

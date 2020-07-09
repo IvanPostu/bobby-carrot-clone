@@ -20,3 +20,4 @@ $ bash mvnw clean test compile assembly:single
 ```
 $ java -jar ./target/bobbycarrot-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
+
