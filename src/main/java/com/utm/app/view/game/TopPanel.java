@@ -40,13 +40,14 @@ public class TopPanel extends JPanel implements ActionListener{
   private Font font = new Font ("Consolas", 1, 17);
 
   private Point rabbitPos = new Point(0,0);
+  private Color panelColor = new Color(192,192,192,96);
 
   @PostConstruct
   public void postConstruct() {
     this.height = isDebug ? 40 : 20;
     setLayout(null);
     setBounds(0, 0, width, height);
-    setBackground(new Color(128,128,128,192));
+    setBackground(panelColor);
     setFocusable(true);
     requestFocus();
     this.timer = new Timer(1000 / 60, this);

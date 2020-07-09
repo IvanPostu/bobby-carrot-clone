@@ -52,13 +52,8 @@ public class Camera {
     int newX = -newPoint.getX()*BLOCK_SIZE + windowWidth / 2 - BLOCK_SIZE / 2;
     int newY = -newPoint.getY()*BLOCK_SIZE + windowHeight / 2 - BLOCK_SIZE / 2;
 
-    newX = newX>= -1*BLOCK_SIZE ? -1*BLOCK_SIZE : newX;
-    newX = newX<= -(roundSize.getWidth()-windowWidth) 
-      ? -(roundSize.getWidth()-windowWidth) : newX;
-
-
-    // newY = newY<0 ? 0 : newY;
-    // newY = newY>roundSize.getHeight()-windowHeight ? roundSize.getHeight()-windowWidth : newY;
+    newX = calculateXWithoutGoingBeyondTheRound(newX);
+    newY = calculateYWithoutGoingBeyondTheRound(newY);
 
     this.p = new Point(newX, newY);
   }

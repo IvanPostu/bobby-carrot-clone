@@ -16,9 +16,9 @@ import com.utm.core.Singleton;
 @Singleton(lazy = true)
 public class BufferedImageContext {
 
-  private Map<GameBlockEnum, BufferedImage> cache = new ConcurrentHashMap<>();
+  private Map<GameBlockResourcesEnum, BufferedImage> cache = new ConcurrentHashMap<>();
 
-  public BufferedImage getBufferedImage(GameBlockEnum resource){
+  public BufferedImage getBufferedImage(GameBlockResourcesEnum resource){
     if(cache.containsKey(resource)){
       return cache.get(resource);
     }

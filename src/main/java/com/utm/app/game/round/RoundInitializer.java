@@ -1,20 +1,15 @@
 package com.utm.app.game.round;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import com.utm.app.Point;
+import com.utm.app.game.element.ElementNotation;
 import com.utm.app.game.element.EmptyPlace;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
-import com.utm.app.game.element.GameObjectFactory.GameObjectType;
 import com.utm.app.view.game.MainGame;
 import com.utm.core.InjectByType; 
 
@@ -29,81 +24,65 @@ public class RoundInitializer {
   @InjectByType
   private MainGame mainGame;
 
-  private List<char[]> readRoundDataFromFile(final int currentRound){
-    List<char[]> round = new ArrayList<>();
-    String roundfile = String.format("/rounds/round%d.txt", currentRound);
+  @InjectByType
+  private RoundInitializerValidator validator;
 
-
-    try(InputStream in = this.getClass().getResourceAsStream(roundfile)) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-      Stream<String> lines = reader.lines();
-      Iterator<String> iter = lines.iterator();
-
-      while(iter.hasNext()){
-        String s = iter.next();
-        round.add(s.toCharArray());
-      }
-
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-
-    return round;
-  }
+  @InjectByType 
+  private RoundLoader roundLoader;
 
   public Map<Point, List<GameObject>> initGameObjects(int currentRound){
-    List<char[]> roundFromFile = readRoundDataFromFile(currentRound);
-    roundFromFile = addLimitRocks(roundFromFile);
-    calcRoundSize(roundFromFile);
-    Map<Point, List<GameObject>> result = convertCharsToGameObjects(roundFromFile);
+    List<String[]> roundObjectNotationsFromFile = roundLoader.loadRoundObjectNotations(currentRound);
+    validator.validate(roundObjectNotationsFromFile, currentRound);
+    roundObjectNotationsFromFile = addRoundBorder(roundObjectNotationsFromFile);
+    calcRoundSize(roundObjectNotationsFromFile);
+    Map<Point, List<GameObject>> result = generateGameObjects(roundObjectNotationsFromFile);
 
     return result;
   }
 
 
-  private List<char[]> addLimitRocks(List<char[]> rawRoundFromFile){
+  private List<String[]> addRoundBorder(final List<String[]> roundNotations){
 
-    final int maxX = rawRoundFromFile
+    final int maxX = roundNotations
       .stream()
       .mapToInt(a -> a.length)
       .max()
       .getAsInt() + 2;
 
-    List<char[]> result = new ArrayList<>();
+    List<String[]> result = new ArrayList<>();
 
-    for (char[] cs : rawRoundFromFile) {
-      char[] newarr = new char[maxX];
-      for (int i = 1; i < newarr.length-1; i++) {
-        if(i-1<cs.length){
-          newarr[i] = cs[i-1];
+    for (String[] roundLine : roundNotations) {
+      String[] newRoundLine = new String[maxX];
+      for (int i = 1; i < newRoundLine.length-1; i++) {
+        if(i-1<roundLine.length){
+          newRoundLine[i] = roundLine[i-1];
         }else{
-          newarr[i] = GameObjectType.ROCK.getIdChars()[0];
+          newRoundLine[i] = ElementNotation.ROCK.getNotation();
         }
       }
-      newarr[0] = GameObjectType.ROCK.getIdChars()[0];
-      newarr[newarr.length-1] = GameObjectType.ROCK.getIdChars()[0];
-      result.add(newarr);
+      newRoundLine[0] = ElementNotation.ROCK.getNotation();
+      newRoundLine[newRoundLine.length-1] = ElementNotation.ROCK.getNotation();
+      result.add(newRoundLine);
     }
 
-    char[] arr1 = new char[result.get(0).length];
-    char[] arr2 = new char[result.get(result.size()-1).length];
+    String[] arr1 = new String[result.get(0).length];
+    String[] arr2 = new String[result.get(result.size()-1).length];
 
     for (int i = 0; i < arr1.length; i++) {
-      arr1[i] = GameObjectType.ROCK.getIdChars()[0];
+      arr1[i] = ElementNotation.ROCK.getNotation();
     }
 
     for (int i = 0; i < arr2.length; i++) {
-      arr2[i] = GameObjectType.ROCK.getIdChars()[0];
+      arr2[i] = ElementNotation.ROCK.getNotation();
     }
 
-    result.add(0 , arr1);
+    result.add(0, arr1);
     result.add(arr2);
 
     return result;
-
   }
 
-  private void calcRoundSize(List<char[]> roundFromFile){
+  private void calcRoundSize(List<String[]> roundFromFile){
     int width = roundFromFile
       .stream()
       .mapToInt(a -> a.length)
@@ -119,18 +98,18 @@ public class RoundInitializer {
 
   }
 
-  private Map<Point, List<GameObject>> convertCharsToGameObjects(List<char[]> roundFromFile){
+  private Map<Point, List<GameObject>> generateGameObjects(List<String[]> notations){
 
     Map<Point, List<GameObject>> result = new HashMap<>();
 
     int y = 0;
     int x = 0;
 
-    for (char[] cs : roundFromFile) {
+    for (String[] notation : notations) {
       y++;
       x = 0;
 
-      for (char c : cs) {
+      for (String c : notation) {
         x++;
 
         Point p = new Point(x,y);
@@ -139,11 +118,11 @@ public class RoundInitializer {
         GameObject gameObject = gameObjectFactory.createGameObject(c, p);
 
         /**
-         * Если объект игры то создает пустое место под ним.
+         * If is game object, create empty place under him.
          */
         if(gameObject instanceof EmptyPlace == false){
           objectsOnPoint.add(gameObjectFactory
-            .createGameObject(GameObjectType.EMPTY_RANDOM_PLACE.getIdChars()[0], p)
+            .createGameObject(ElementNotation.EMPTY.getNotation(), p)
           );
         }
 
