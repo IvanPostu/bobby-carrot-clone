@@ -15,32 +15,32 @@ import com.utm.app.view.game.TopPanel;
 
 public class RoundState {
 
-  private Camera camera;
-
-  private Map<Point, List<GameObject>> gameObjects;
   private short eatableCount;
+  private Camera camera;
+  private Map<Point, List<GameObject>> gameObjects;
   private Rabbit rabbit;
-
   private TopPanel topPanel;
+  private Procedure roundCompleteCallback;
 
-  private Procedure roundCompletCallback;
 
   public RoundState(
     Camera camera, 
     Map<Point, List<GameObject>> gameObjects, 
     TopPanel topPanel,
-    Procedure roundCompletCallback) 
+    Procedure roundCompleteCallback) 
   {
-    this.roundCompletCallback = roundCompletCallback;
+    this.roundCompleteCallback = roundCompleteCallback;
     this.camera = camera;
     this.topPanel = topPanel;
     this.gameObjects = gameObjects;
-    this.rabbit = null;
-    this.findRabbit();
+    this.rabbit = this.findRabbit();
     camera.setPoint(this.rabbit.getPoint());
-    this.eatableCount = 0;
-    this.calculateEatableCount();
+    this.eatableCount = this.calculateEatableCount();
+
+    topPanel.setEatableOnRound(this.eatableCount);
+    topPanel.setRabbitPos(rabbit.getPoint());
   }
+
 
   private void addGameObjectToRound(Point p, GameObject o){
     List<GameObject> objectsOnPoint = this.gameObjects.get(p);
@@ -54,6 +54,7 @@ public class RoundState {
     }
   }
   
+
   public void render(Graphics2D g) {
     gameObjects.forEach((k, v) -> {
       for (GameObject gameObject : v) {
@@ -61,6 +62,7 @@ public class RoundState {
       }
     });
   }
+
 
   public void moveRabbit(MoveDirection dir){
     Point rabitLocation = rabbit.getPoint();
@@ -116,41 +118,41 @@ public class RoundState {
       topPanel.setRabbitPos(rabbit.getPoint());
 
       if(this.eatableCount==0){
-        this.roundCompletCallback.resolve();
+        this.roundCompleteCallback.resolve();
       }
     }
   }
 
-  // private void roundComplete(){
-  //   roundManager.manageRoundCompleteEvent();
-  //   boolean hasNextRound = roundManager.hasNextRound();
-  //   if(hasNextRound){
-  //     initNewRound();
-  //   }
-  // }
 
-  private void findRabbit(){
-    gameObjects.forEach((k, v) -> {
-      for (GameObject gameObject : v) {
+  private Rabbit findRabbit(){
+    for(Map.Entry<Point, List<GameObject>> entry : this.gameObjects.entrySet()){
+      List<GameObject> list = entry.getValue();
+      for (GameObject gameObject : list) {
         if(gameObject instanceof Rabbit){
-          if(this.rabbit != null){
-            throw new RuntimeException("Max rabbits count is 1, please update your roundfile.");
-          }
-          this.rabbit = (Rabbit)gameObject;
-          topPanel.setRabbitPos(rabbit.getPoint());
+          Rabbit rab = (Rabbit)gameObject;
+          topPanel.setRabbitPos(rab.getPoint());
+          return rab;
         }
       }
-    });
+    }
+
+    throw new RuntimeException();
   }
 
-  private void calculateEatableCount(){
-    gameObjects.forEach((k, v) -> {
-      for (GameObject gameObject : v) {
+
+  private short calculateEatableCount(){
+    short eatableCount = 0;
+
+    for(Map.Entry<Point, List<GameObject>> entry : this.gameObjects.entrySet()){
+      List<GameObject> list = entry.getValue();
+      for (GameObject gameObject : list) {
         if(gameObject.isEatable()){
-          this.eatableCount++;
+          eatableCount++;
         }
       }
-    });
+    }
+   
+    return eatableCount;
   }
 
 }

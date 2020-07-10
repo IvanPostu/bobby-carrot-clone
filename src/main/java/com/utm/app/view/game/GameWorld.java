@@ -38,10 +38,18 @@ public class GameWorld {
     }
   }
 
+
   public void render(Graphics2D g) {
     roundManager.getRoundState().render(g);
   }
 
+  void addNotify(){
+    roundManager.addNotify();
+  }
+
+  void removeNotify(){
+    roundManager.removeNotify();
+  }
 
   
 }

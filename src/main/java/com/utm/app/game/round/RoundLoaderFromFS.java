@@ -8,13 +8,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.utm.app.game.round.dto.RoundLoaderDTO;
+
 public class RoundLoaderFromFS implements RoundLoader {
   
   @Override
-  public List<String[]> loadRoundObjectNotations(final int currentRound){
-    
+  public RoundLoaderDTO loadRoundObjectNotations(final int currentRound){
     List<String[]> round = new ArrayList<>();
     String roundfile = String.format("/rounds/round%d.txt", currentRound);
+    RoundLoaderDTO roundLoaderDTO = new RoundLoaderDTO();
 
 
     try(InputStream in = this.getClass().getResourceAsStream(roundfile)) {
@@ -24,15 +26,28 @@ public class RoundLoaderFromFS implements RoundLoader {
 
       while(iter.hasNext()){
         String s = iter.next();
+        if(s.equals("[DATA]")){
+          break;
+        }
         String[] arr = s.split(" ");
         round.add(arr);
       }
 
+      while(iter.hasNext()){
+        String s = iter.next();
+        String[] arr = s.split("=");
+
+        if(arr[0].equals(RoundDataNotation.ROUND_TIME_NOTATION.getNotation())){
+          roundLoaderDTO.setRoundTime(Integer.parseInt(arr[1]));
+        }
+      }
+
+      roundLoaderDTO.setRoundObjectNotations(round);
     } catch (Exception e1) {
       e1.printStackTrace();
     }
 
-    return round;
+    return roundLoaderDTO;
   }
 
 }

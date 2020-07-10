@@ -31,9 +31,8 @@ public class TopPanel extends JPanel implements ActionListener{
   private boolean isDebug;
 
   private Timer timer;
-  private Timer secondTimer;
 
-  private int gameSeconds = 0;
+  private int roundTime = 0;
   private int currentRound = 0;
   private int eatableOnRound = 0;
 
@@ -51,30 +50,25 @@ public class TopPanel extends JPanel implements ActionListener{
     setFocusable(true);
     requestFocus();
     this.timer = new Timer(1000 / 60, this);
-    this.secondTimer = new Timer(1000, (a) -> {
-      gameSeconds++;
-    });
   }
 
   @Override
   public void addNotify() {
     super.addNotify();
     this.timer.start();
-    this.secondTimer.start();
   }
 
   @Override
   public void removeNotify() {
     super.removeNotify();
     this.timer.stop();
-    this.secondTimer.stop();
   }
 
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.setFont(font);
-    g.drawString(String.format("Round time: %d", this.gameSeconds), 15, 15);
+    g.drawString(String.format("Round time: %d", this.roundTime), 15, 15);
     g.drawString(String.format("Current round: %d", this.currentRound), 190, 15);
     g.drawString(String.format("Food on round: %d", this.eatableOnRound), 410, 15);
     if(isDebug){
@@ -89,10 +83,6 @@ public class TopPanel extends JPanel implements ActionListener{
     repaint();
   }
 
-  public void resetTimerToZero(){
-    this.gameSeconds = 0;
-  }
-
   public void setCurrentRound(int currentRound) {
     this.currentRound = currentRound;
   }
@@ -103,5 +93,9 @@ public class TopPanel extends JPanel implements ActionListener{
 
   public void setRabbitPos(Point pos){
     this.rabbitPos = pos;
+  }
+
+  public void setRoundTime(int roundTime) {
+    this.roundTime = roundTime;
   }
 }

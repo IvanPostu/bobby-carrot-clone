@@ -10,6 +10,8 @@ import com.utm.app.game.element.ElementNotation;
 import com.utm.app.game.element.EmptyPlace;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
+import com.utm.app.game.round.dto.RoundInitializerDTO;
+import com.utm.app.game.round.dto.RoundLoaderDTO;
 import com.utm.app.view.game.MainGame;
 import com.utm.core.InjectByType; 
 
@@ -30,14 +32,16 @@ public class RoundInitializer {
   @InjectByType 
   private RoundLoader roundLoader;
 
-  public Map<Point, List<GameObject>> initGameObjects(int currentRound){
-    List<String[]> roundObjectNotationsFromFile = roundLoader.loadRoundObjectNotations(currentRound);
+
+  public RoundInitializerDTO initGameObjects(int currentRound){
+    RoundLoaderDTO round = roundLoader.loadRoundObjectNotations(currentRound);
+    List<String[]> roundObjectNotationsFromFile = round.getRoundObjectNotations();
     validator.validate(roundObjectNotationsFromFile, currentRound);
     roundObjectNotationsFromFile = addRoundBorder(roundObjectNotationsFromFile);
     calcRoundSize(roundObjectNotationsFromFile);
-    Map<Point, List<GameObject>> result = generateGameObjects(roundObjectNotationsFromFile);
+    Map<Point, List<GameObject>> roundObjects = generateGameObjects(roundObjectNotationsFromFile);
 
-    return result;
+    return new RoundInitializerDTO(roundObjects, round.getRoundTime());
   }
 
 
@@ -82,6 +86,7 @@ public class RoundInitializer {
     return result;
   }
 
+
   private void calcRoundSize(List<String[]> roundFromFile){
     int width = roundFromFile
       .stream()
@@ -97,6 +102,7 @@ public class RoundInitializer {
     this.roundSize.setSize(width, height);
 
   }
+
 
   private Map<Point, List<GameObject>> generateGameObjects(List<String[]> notations){
 
@@ -137,4 +143,5 @@ public class RoundInitializer {
     return result;
   }
 
+  
 }

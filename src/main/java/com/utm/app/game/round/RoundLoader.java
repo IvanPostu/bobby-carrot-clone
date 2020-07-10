@@ -1,9 +1,24 @@
 package com.utm.app.game.round;
 
-import java.util.List;
+import com.utm.app.game.round.dto.RoundLoaderDTO;
 
 public abstract interface RoundLoader {
 
-  List<String[]> loadRoundObjectNotations(final int currentRound);
+  static enum RoundDataNotation {
+    ROUND_TIME_NOTATION("RoundTime");
+
+    private String notation;
+
+    private RoundDataNotation(String notation){
+      this.notation = notation;
+    }
+
+    public String getNotation() {
+      return notation;
+    }
+
+  }
+
+  RoundLoaderDTO loadRoundObjectNotations(final int currentRound);
 
 }

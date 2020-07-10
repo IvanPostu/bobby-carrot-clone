@@ -62,12 +62,14 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
     super.addNotify();
     this.resetGameRoundSize(roundSize.getWidth(),roundSize.getHeight());
     this.timer.start();
+    gameWorld.addNotify();
   }
 
   @Override
   public void removeNotify(){
     super.removeNotify();
     this.timer.stop();
+    gameWorld.removeNotify();
   }
 
   public void resetGameRoundSize(int width, int height){
