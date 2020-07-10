@@ -7,10 +7,22 @@ import com.utm.app.game.round.RoundLoader;
 import com.utm.app.game.round.RoundLoaderFromFS;
 import com.utm.core.Application;
 
-public class Main 
-{
-  public static void main( String ...args )
-  {
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+public class Main {
+  static Logger logger = LogManager.getLogger(Main.class);
+
+  public static void main( String ...args ){
+
+    logger.debug("This Will Be Printed On Debug");
+    logger.info("This Will Be Printed On Info");
+    logger.warn("This Will Be Printed On Warn");
+    logger.error("This Will Be Printed On Error");
+    logger.fatal("This Will Be Printed On Fatal");
+
+    logger.info("Appending string: {}.", "Hello, World");
+
     /**
      * Если интерфейс имеет больше одной имплементации,
      * нужно в мэпу передать как ключ интерфейс 
