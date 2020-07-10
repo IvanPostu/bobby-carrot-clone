@@ -2,7 +2,9 @@ package com.utm.app.view.message;
 
 import java.awt.Color;
 
+import com.utm.app.game.round.RoundManager;
 import com.utm.app.state.CurrentAppStateEnum;
+import com.utm.core.InjectByType;
 import com.utm.core.InjectProperty;
 
 
@@ -13,9 +15,15 @@ public class NextRoundMessage extends FullScreenMessageWithTimeout {
   @InjectProperty("application.game.nextroundmessage.time")
   private int timeInSecondsFromResource;
 
+  @InjectByType
+  private RoundManager roundManager;
+
   @Override
   protected String getMessage() {
-    return String.format("NEXT ROUND AFTER %d second(s)", this.timeInSeconds);
+    int nextRound = roundManager.getCurrentRound();
+
+    return String.format("ROUND %d AFTER %d second(s)", 
+      nextRound, this.timeInSeconds);
   }
 
   @Override

@@ -29,7 +29,7 @@ public class WinGameMessage extends FullScreenMessageWithTimeout {
 
   @Override
   protected void onTimeExpiredHandle() {
-    applicationState.setApplicationState(CurrentAppStateEnum.GAME);
+    applicationState.setApplicationState(CurrentAppStateEnum.MAIN_MENU);
   }
 
   @Override

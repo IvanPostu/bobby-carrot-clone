@@ -94,7 +94,6 @@ public class MainGame extends JPanel implements ActionListener, KeyListener {
   @Override
   public void actionPerformed(ActionEvent event) {
     update();
-    // // System.out.println("tick-tack");
   }
 
   @Override
