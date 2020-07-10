@@ -16,14 +16,14 @@ import com.utm.core.Singleton;
 @Singleton(lazy = true)
 public class BufferedImageContext {
 
-  private Map<GameBlockResourcesEnum, BufferedImage> cache = new ConcurrentHashMap<>();
+  private Map<String, BufferedImage> cache = new ConcurrentHashMap<>();
 
-  public BufferedImage getBufferedImage(GameBlockResourcesEnum resource){
+  public BufferedImage getBufferedImage(final String resource){
     if(cache.containsKey(resource)){
       return cache.get(resource);
     }
 
-    BufferedImage img = load(resource.getPath());
+    BufferedImage img = load(resource);
     replaceWhitePixels(img);
     img = resizeTo32(img);
     cache.put(resource, img);

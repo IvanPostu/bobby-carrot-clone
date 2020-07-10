@@ -1,6 +1,6 @@
 package com.utm.app.game.element;
 
-import java.awt.image.*;
+
 import java.awt.*;
 
 import com.utm.app.Point;
@@ -10,13 +10,11 @@ public abstract class GameObject {
   protected int width, height;
   protected boolean walkable;
   protected boolean eatable;
-  protected BufferedImage texture;
 
   public static int gameObjectSize = 32;
 
-  public GameObject(Point p, BufferedImage texture) {
+  public GameObject(Point p) {
     this.p = p;
-    this.texture = texture;
   }
 
   public abstract void render(Graphics2D g);
@@ -27,6 +25,10 @@ public abstract class GameObject {
 
   public boolean isEatable() {
     return eatable;
+  }
+
+  public boolean isAggressive(){
+    return false;
   }
 
   protected int getXCalculatedPos(){

@@ -10,6 +10,7 @@ import com.utm.app.Procedure;
 import com.utm.app.game.Camera;
 import com.utm.app.game.MoveDirection;
 import com.utm.app.game.element.GameObject;
+import com.utm.app.game.element.GroundSpikesTrap;
 import com.utm.app.game.element.Rabbit;
 import com.utm.app.view.game.TopPanel;
 
@@ -21,14 +22,17 @@ public class RoundState {
   private Rabbit rabbit;
   private TopPanel topPanel;
   private Procedure roundCompleteCallback;
+  private Procedure roundLoseCallback;
 
 
   public RoundState(
     Camera camera, 
     Map<Point, List<GameObject>> gameObjects, 
     TopPanel topPanel,
-    Procedure roundCompleteCallback) 
+    Procedure roundCompleteCallback,
+    Procedure roundLoseCallback) 
   {
+    this.roundLoseCallback = roundLoseCallback;
     this.roundCompleteCallback = roundCompleteCallback;
     this.camera = camera;
     this.topPanel = topPanel;
@@ -81,6 +85,7 @@ public class RoundState {
       nextLocation = new Point(rabitLocation.getX(), rabitLocation.getY()+1);
     }
 
+    List<GameObject> objectsUnderRabbit = this.gameObjects.get(rabitLocation);
     List<GameObject> nextLocObjects = this.gameObjects.get(nextLocation);
 
     final boolean moveIsPossible = nextLocObjects != null
@@ -91,12 +96,33 @@ public class RoundState {
     if(moveIsPossible){
 
       /**
+       * Activate GroundSpikesTrap if exist.
+       */
+      objectsUnderRabbit.forEach(a -> {
+        if(a instanceof GroundSpikesTrap && !((GroundSpikesTrap)a).trapIsEnabled()){
+          GroundSpikesTrap trap = (GroundSpikesTrap)a;
+          trap.setTrapEnabled();
+        }
+      });
+
+      /**
        * Detele rabit from last position.
        * Create rabbit on new position.
        */
-      this.gameObjects.get(rabitLocation).removeIf(a -> a instanceof Rabbit);
+      objectsUnderRabbit.removeIf(a -> a instanceof Rabbit);
       rabbit.setPoint(nextLocation);
       addGameObjectToRound(nextLocation, rabbit);
+
+
+      /**
+       * If stepped on active GroundSpikesTrap
+       * Lose round.
+       */
+      nextLocObjects.forEach(a->{
+        if(a instanceof GroundSpikesTrap && ((GroundSpikesTrap)a).trapIsEnabled()){
+          this.roundLoseCallback.resolve();
+        }
+      });
 
       /**
        * Move camera

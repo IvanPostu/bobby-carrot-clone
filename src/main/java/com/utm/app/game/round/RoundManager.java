@@ -112,7 +112,7 @@ public class RoundManager {
   private void setRound(short round){
     currentRound = round;
     roundState = new RoundState(camera, generateGameObjects(), topPanel, 
-      this::manageRoundCompleteEvent);
+      this::manageRoundCompleteEvent, this::manageRoundLoseEvent);
   }
 
 }

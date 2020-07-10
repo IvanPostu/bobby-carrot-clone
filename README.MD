@@ -10,7 +10,7 @@
 - [ ] Каждый раунд имеет определенное время 
   которое если закончится то игрок проиграет.
 - [ ] Создать враждебных юнитов.
-- [ ] Создать ловушки.
+- [x] Создать ловушки.
 - [ ] Создать 2 типа съедобных объектов.
 - [ ] Возможность выигрывать/проигрывать.
 - [x] Нарисовать обьекты игры. ( paint )
@@ -28,8 +28,8 @@
       написать мини проект с имплементацией каждого паттерна.
 - [ ] Использовать behavioral pattern Observer.
 - [ ] Использовать behavioral pattern State.
-- [ ] Использовать creational pattern AbstractFactory.
-- [ ] Использовать creational pattern FactoryMethod.
+- [x] Использовать creational pattern AbstractFactory.
+- [x] Использовать creational pattern FactoryMethod.
 - [ ] Использовать creational pattern Builder.
 - [ ] Использовать structural pattern Proxy.
 

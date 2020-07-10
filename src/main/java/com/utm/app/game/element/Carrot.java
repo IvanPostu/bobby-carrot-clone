@@ -7,8 +7,12 @@ import com.utm.app.Point;
 
 public class Carrot extends GameObject {
 
+  public static final String TEXTURE_PATH = "/images/carrot48.png";
+  private BufferedImage texture;
+
   Carrot(Point p, BufferedImage texture) {
-    super(p, texture);
+    super(p);
+    this.texture = texture;
     this.walkable = true;
     this.eatable = true;
   }
