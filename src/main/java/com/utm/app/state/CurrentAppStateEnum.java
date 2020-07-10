@@ -4,5 +4,6 @@ public enum CurrentAppStateEnum {
   MAIN_MENU,
   GAME,
   NEXT_ROUND_MSG,
-  WIN_GAME_MSG
+  WIN_GAME_MSG,
+  LOSE_ROUND_MSG;
 }

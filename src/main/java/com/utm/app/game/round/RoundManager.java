@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Timer;
+import java.awt.event.*;
 
 import com.utm.app.Point;
 import com.utm.app.game.Camera;
@@ -53,9 +54,7 @@ public class RoundManager {
 
   @PostConstruct
   private void postConstruct(){
-    this.roundTimer = new Timer(1000, event -> {
-      topPanel.setRoundTime(--this.roundTime);
-    });
+    this.roundTimer = new Timer(1000, this::everySecondEvent);
     setRound((short)1);
   }
 
@@ -83,6 +82,19 @@ public class RoundManager {
     return round.getRoundObjects();
   }
 
+  private void everySecondEvent(ActionEvent $_){
+    topPanel.setRoundTime(this.roundTime==0?this.roundTime:--this.roundTime);
+
+    if(this.roundTime==0){
+      manageRoundLoseEvent();
+    }
+  }
+
+  private void manageRoundLoseEvent(){
+    applicationState.setApplicationState(CurrentAppStateEnum.LOSE_ROUND_MSG);
+    setRound(currentRound);
+  }
+
   private void manageRoundCompleteEvent(){
     if(hasNextRound()){
       applicationState.setApplicationState(CurrentAppStateEnum.NEXT_ROUND_MSG);
@@ -99,11 +111,8 @@ public class RoundManager {
 
   private void setRound(short round){
     currentRound = round;
-    roundState = new RoundState(camera, generateGameObjects(), topPanel, this::onRoundComplet);
-  }
-
-  private void onRoundComplet(){
-    manageRoundCompleteEvent();
+    roundState = new RoundState(camera, generateGameObjects(), topPanel, 
+      this::manageRoundCompleteEvent);
   }
 
 }

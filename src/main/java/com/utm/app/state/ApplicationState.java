@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import com.utm.app.view.MainWindow;
 import com.utm.app.view.game.MainGame;
 import com.utm.app.view.menu.MainMenu;
+import com.utm.app.view.message.LoseGameMessage;
 import com.utm.app.view.message.NextRoundMessage;
 import com.utm.app.view.message.WinGameMessage;
 import com.utm.core.InjectByType;
@@ -29,6 +30,9 @@ public class ApplicationState {
   @InjectByType
   private WinGameMessage winGameMessage;
 
+  @InjectByType
+  private LoseGameMessage loseGameMessage;
+
   private CurrentAppStateEnum stateEnum; 
   
   @PostConstruct
@@ -51,6 +55,10 @@ public class ApplicationState {
 
     if(gameState.equals(CurrentAppStateEnum.WIN_GAME_MSG)){
       addUIComponentToMainWindow(winGameMessage);
+    }
+
+    if(gameState.equals(CurrentAppStateEnum.LOSE_ROUND_MSG)){
+      addUIComponentToMainWindow(loseGameMessage);
     }
 
     this.stateEnum = gameState;
