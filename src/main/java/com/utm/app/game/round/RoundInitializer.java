@@ -14,7 +14,7 @@ import com.utm.app.game.element.Rabbit;
 import com.utm.app.game.round.dto.RoundInitializerDTO;
 import com.utm.app.game.round.dto.RoundLoaderDTO;
 import com.utm.app.view.game.MainGame;
-import com.utm.core.InjectByType; 
+import com.utm.core.InjectByType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,14 +34,18 @@ public class RoundInitializer {
   @InjectByType
   private RoundInitializerValidator validator;
 
-  @InjectByType 
+  @InjectByType
   private RoundLoader roundLoader;
 
-
-  public RoundInitializerDTO initGameObjects(int currentRound){
+  public RoundInitializerDTO initGameObjects(int currentRound) {
     RoundLoaderDTO round = roundLoader.loadRoundObjectNotations(currentRound);
     List<String[]> roundObjectNotationsFromFile = round.getRoundObjectNotations();
-    validator.validate(roundObjectNotationsFromFile, currentRound);
+    try {
+      validator.validate(roundObjectNotationsFromFile, currentRound);
+    } catch (Exception e) {
+      logger.error(e);
+      throw new RuntimeException();
+    }
     roundObjectNotationsFromFile = addRoundBorder(roundObjectNotationsFromFile);
     calcRoundSize(roundObjectNotationsFromFile);
     RoundInitializerDTO result = generateRoundInitializerDTO(
