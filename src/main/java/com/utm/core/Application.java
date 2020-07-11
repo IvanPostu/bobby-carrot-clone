@@ -3,6 +3,7 @@ package com.utm.core;
 import java.util.Map;
 
 import com.utm.app.configurators.JavaConfig;
+import com.utm.app.configurators.LoggerConfig;
 
 public class Application {
 
@@ -14,10 +15,11 @@ public class Application {
     
     context.setObjectFactory(objectFactory);
 
+    LoggerConfig loggerConfig = context.getObject(LoggerConfig.class);
+    loggerConfig.configureGlobalLogger();
+
     var notLazySingletonInitializer = new NotLazySingletonInitializer(context);
     notLazySingletonInitializer.initializeNotLazySingletons();
-
-    
     
     return context;
   }
