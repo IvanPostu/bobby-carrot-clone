@@ -12,6 +12,8 @@ public enum ElementNotation {
 
   CARROT("E1"),
 
+  APPLE("E2"),
+
   GRASS_A("G1"),
 
   GRASS_B("G2"),

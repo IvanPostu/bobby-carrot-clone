@@ -7,9 +7,14 @@ import com.utm.app.resource.BufferedImageContext;
 import com.utm.core.InjectByType;
 import com.utm.core.Singleton;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Singleton
 public class GameObjectFactory {
 
+  static Logger logger = LogManager.getLogger(GameObjectFactory.class);
+  
   @InjectByType
   BufferedImageContext imageContext;
   
@@ -22,7 +27,9 @@ public class GameObjectFactory {
       }
     }
 
-    throw new RuntimeException(String.format("Invalid notation for game object: (%s)", notation));
+    final String errorMsg = String.format("Invalid notation for game object: (%s)", notation);
+    logger.error(errorMsg);
+    throw new RuntimeException(errorMsg);
   }
 
 
@@ -34,6 +41,8 @@ public class GameObjectFactory {
         return new Rock(p, imageContext.getBufferedImage(Rock.TEXTURE_PATH));
       case CARROT:
         return new Carrot(p, imageContext.getBufferedImage(Carrot.TEXTURE_PATH));
+      case APPLE:
+        return new Apple(p, imageContext.getBufferedImage(Apple.TEXTURE_PATH));
       case GRASS_A:
         return new EmptyPlace(p, imageContext.getBufferedImage(EmptyPlace.TEXTURES_PATH[0]));
       case GRASS_B:
@@ -48,7 +57,9 @@ public class GameObjectFactory {
         return new GroundSpikesTrap(false, p, imageContext.getBufferedImage(GroundSpikesTrap.ENABLED_TRAP_TEXTURE), imageContext.getBufferedImage(GroundSpikesTrap.DISABLED_TRAP_TEXTURE));
         
       default:
-        throw new RuntimeException("Invalid game object type.");
+        logger.error("Invalid ElementNotation \"{}\", "+
+        "please modify switch statement on this method for this ElementNotation.", type.name());
+        throw new RuntimeException();
     }
   }
 
