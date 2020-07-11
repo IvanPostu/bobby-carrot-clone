@@ -21,22 +21,31 @@ public class GameObjectFactory {
   
   public GameObject createGameObject(String notation, Point p){
     
-    for (ElementNotation type : ElementNotation.values()) {
-      if(notation.equals(type.getNotation())){
-        return createGameObjectByType(type, p);
+    try {
+      for (ElementNotation type : ElementNotation.values()) {
+        if(notation.equals(type.getNotation())){
+          return createGameObjectByType(type, p);
+        }
       }
-    }
+      throw new Exception();
 
-    final String errorMsg = String.format("Invalid notation for game object: (%s)", notation);
-    logger.error(errorMsg);
-    throw new RuntimeException(errorMsg);
+    } catch (Exception e) {
+      final String errorMsg = String.format("Invalid notation (%s)", notation);
+      logger.error(errorMsg);
+      throw new RuntimeException(errorMsg);
+    }
   }
 
 
-  private GameObject createGameObjectByType(ElementNotation type, Point p){
+  private GameObject createGameObjectByType(ElementNotation type, Point p) throws Exception {
+
     switch(type){
       case RABBIT:
         return new Rabbit(p, imageContext.getBufferedImage(Rabbit.TEXTURE_PATH));
+      case BAD_ENEMY:
+        return new BadEnemy(p, imageContext.getBufferedImage(BadEnemy.TEXTURE_PATH));
+      case VERY_BAD_ENEMY:
+        return new VeryBadEnemy(p, imageContext.getBufferedImage(VeryBadEnemy.TEXTURE_PATH));
       case ROCK:
         return new Rock(p, imageContext.getBufferedImage(Rock.TEXTURE_PATH));
       case CARROT:
@@ -59,7 +68,7 @@ public class GameObjectFactory {
       default:
         logger.error("Invalid ElementNotation \"{}\", "+
         "please modify switch statement on this method for this ElementNotation.", type.name());
-        throw new RuntimeException();
+        throw new Exception();
     }
   }
 

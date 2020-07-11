@@ -2,6 +2,7 @@ package com.utm.app.game.round;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,12 +10,18 @@ import com.utm.app.Point;
 import com.utm.app.Procedure;
 import com.utm.app.game.Camera;
 import com.utm.app.game.MoveDirection;
+import com.utm.app.game.element.Enemy;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GroundSpikesTrap;
 import com.utm.app.game.element.Rabbit;
 import com.utm.app.view.game.TopPanel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class RoundState {
+
+  static Logger logger = LogManager.getLogger(RoundState.class);
 
   private short eatableCount;
   private Camera camera;
@@ -28,6 +35,7 @@ public class RoundState {
   public RoundState(
     Camera camera, 
     Map<Point, List<GameObject>> gameObjects, 
+    Rabbit rabbit,
     TopPanel topPanel,
     Procedure roundCompleteCallback,
     Procedure roundLoseCallback) 
@@ -37,7 +45,7 @@ public class RoundState {
     this.camera = camera;
     this.topPanel = topPanel;
     this.gameObjects = gameObjects;
-    this.rabbit = this.findRabbit();
+    this.rabbit = rabbit;
     camera.setPoint(this.rabbit.getPoint());
     this.eatableCount = this.calculateEatableCount();
 
@@ -58,6 +66,10 @@ public class RoundState {
     }
   }
   
+  public void everySecondHandler(){
+    moveEnemies();
+  }
+
 
   public void render(Graphics2D g) {
     gameObjects.forEach((k, v) -> {
@@ -65,6 +77,59 @@ public class RoundState {
         gameObject.render(g);
       }
     });
+  }
+
+  private void moveEnemies(){
+    List<Enemy> cache = new ArrayList<>();
+    for(Map.Entry<Point, List<GameObject>> entry : this.gameObjects.entrySet()){
+      List<GameObject> currentObjects = entry.getValue();
+
+      currentObjects.stream()
+        .filter(a -> a instanceof Enemy && !cache.contains((Enemy)a))
+        .findFirst()
+        .ifPresent(enemy -> {
+          Enemy e = (Enemy)enemy;
+          final int x = enemy.getPoint().getX();
+          final int y = enemy.getPoint().getY();
+          List<Point> potentiallyDirs = Arrays.asList(
+            new Point(x+1, y), new Point(x-1, y), new Point(x, y+1), new Point(x, y-1)
+          );
+
+          List<Point> possiblyDirs = new ArrayList<>();
+
+          for (Point posDir : potentiallyDirs) {
+            List<GameObject> nextLocObjects = this.gameObjects.get(posDir);
+            final boolean moveIsPossible = nextLocObjects != null
+            && nextLocObjects
+                .stream()
+                .allMatch(a -> a.isWalkable() || a instanceof Rabbit);
+
+            if(moveIsPossible){
+              possiblyDirs.add(posDir);
+            }
+          }
+
+          if(possiblyDirs.size()!=0){
+            Point newDir = e.pointForMove(possiblyDirs);
+            logger.debug("Enemy point {} {}", enemy.getPoint(), newDir);
+            
+            /**
+             * Detele enemy from last position.
+             * Create enemy on new position.
+             */
+            currentObjects.removeIf(a -> a instanceof Enemy);
+            enemy.setPoint(newDir);
+            addGameObjectToRound(newDir, enemy);
+            cache.add(e);
+
+            if(newDir.equals(rabbit.getPoint())){
+              roundLoseCallback.resolve();
+            }
+
+          }
+        });
+    }
+
   }
 
 
@@ -85,13 +150,15 @@ public class RoundState {
       nextLocation = new Point(rabitLocation.getX(), rabitLocation.getY()+1);
     }
 
+    logger.debug("Attempt to take a step from {} to {}", rabitLocation, nextLocation);
+
     List<GameObject> objectsUnderRabbit = this.gameObjects.get(rabitLocation);
     List<GameObject> nextLocObjects = this.gameObjects.get(nextLocation);
 
     final boolean moveIsPossible = nextLocObjects != null
       && nextLocObjects
           .stream()
-          .allMatch(a -> a.isWalkable());
+          .allMatch(a -> a.isWalkable() || a instanceof Enemy);
 
     if(moveIsPossible){
 
@@ -115,11 +182,11 @@ public class RoundState {
 
 
       /**
-       * If stepped on active GroundSpikesTrap
+       * If stepped on aggresive object.
        * Lose round.
        */
       nextLocObjects.forEach(a->{
-        if(a instanceof GroundSpikesTrap && ((GroundSpikesTrap)a).trapIsEnabled()){
+        if(a.isAggressive()){
           this.roundLoseCallback.resolve();
         }
       });
@@ -135,6 +202,7 @@ public class RoundState {
       nextLocObjects.removeIf(a -> {
         boolean remov = a.isEatable();
         if (remov){
+          logger.debug(a.toString() + " eaten!!!");
           this.eatableCount--;
         }
         return remov;
@@ -148,23 +216,6 @@ public class RoundState {
       }
     }
   }
-
-
-  private Rabbit findRabbit(){
-    for(Map.Entry<Point, List<GameObject>> entry : this.gameObjects.entrySet()){
-      List<GameObject> list = entry.getValue();
-      for (GameObject gameObject : list) {
-        if(gameObject instanceof Rabbit){
-          Rabbit rab = (Rabbit)gameObject;
-          topPanel.setRabbitPos(rab.getPoint());
-          return rab;
-        }
-      }
-    }
-
-    throw new RuntimeException();
-  }
-
 
   private short calculateEatableCount(){
     short eatableCount = 0;

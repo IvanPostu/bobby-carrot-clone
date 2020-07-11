@@ -10,12 +10,17 @@ import com.utm.app.game.element.ElementNotation;
 import com.utm.app.game.element.EmptyPlace;
 import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
+import com.utm.app.game.element.Rabbit;
 import com.utm.app.game.round.dto.RoundInitializerDTO;
 import com.utm.app.game.round.dto.RoundLoaderDTO;
 import com.utm.app.view.game.MainGame;
 import com.utm.core.InjectByType; 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RoundInitializer {
+
+  static Logger logger = LogManager.getLogger(RoundInitializer.class);
 
   @InjectByType
   private RoundSize roundSize;
@@ -39,9 +44,12 @@ public class RoundInitializer {
     validator.validate(roundObjectNotationsFromFile, currentRound);
     roundObjectNotationsFromFile = addRoundBorder(roundObjectNotationsFromFile);
     calcRoundSize(roundObjectNotationsFromFile);
-    Map<Point, List<GameObject>> roundObjects = generateGameObjects(roundObjectNotationsFromFile);
+    RoundInitializerDTO result = generateRoundInitializerDTO(
+      roundObjectNotationsFromFile,
+      round.getRoundTime()
+    );
 
-    return new RoundInitializerDTO(roundObjects, round.getRoundTime());
+    return result;
   }
 
 
@@ -104,9 +112,10 @@ public class RoundInitializer {
   }
 
 
-  private Map<Point, List<GameObject>> generateGameObjects(List<String[]> notations){
+  private RoundInitializerDTO generateRoundInitializerDTO(List<String[]> notations,int roundTime){
 
-    Map<Point, List<GameObject>> result = new HashMap<>();
+    Map<Point, List<GameObject>> roundObjects = new HashMap<>();
+    Rabbit rabbitObject = null;
 
     int y = 0;
     int x = 0;
@@ -132,13 +141,26 @@ public class RoundInitializer {
           );
         }
 
+        if(gameObject instanceof Rabbit){
+          if(rabbitObject != null){
+            logger.error("Max. rabbits on round is 1, but found more. Update roundfile !!!");
+            throw new RuntimeException();
+          }
+          rabbitObject = (Rabbit)gameObject;
+        }
+
         objectsOnPoint.add(gameObject);
 
-        result.put(p, objectsOnPoint);
+        roundObjects.put(p, objectsOnPoint);
         
       }
       
     }
+
+    RoundInitializerDTO result = new RoundInitializerDTO();
+    result.setRabbit(rabbitObject);
+    result.setRoundObjects(roundObjects);
+    result.setRoundTime(roundTime);
 
     return result;
   }

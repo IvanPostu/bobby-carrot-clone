@@ -21,5 +21,11 @@ public class Carrot extends GameObject {
   public void render(Graphics2D g) {
     g.drawImage(this.texture, getXCalculatedPos(), getYCalculatedPos(), null);
   }
+
+  @Override
+  public String toString() {
+    final String msg = String.format("Carrot { x:%d, y:%d }", p.getX(), p.getY());
+    return msg;
+  }
   
 }

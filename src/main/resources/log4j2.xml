@@ -14,9 +14,13 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="STDOUT" />
-            <AppenderRef ref="FILE" />
-        </Root>
+      <Logger name="com.utm.app.game.element.GameObjectFactory" level="info" />
+      <Logger name="com.utm.app.game.round.RoundState" level="info" />
+      <Logger name="com.utm.app.game.round.RoundManager" level="info" />
+      <Root>
+        <!-- <Root level="info"> level is assigned programmatically -->
+          <AppenderRef ref="STDOUT" />
+          <AppenderRef ref="FILE" />
+      </Root>
     </Loggers>
 </Configuration>

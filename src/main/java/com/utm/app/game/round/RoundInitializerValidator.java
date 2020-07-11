@@ -13,7 +13,7 @@ public class RoundInitializerValidator {
     this.rabbitsCount = 0;
   }
 
-  public void validate(List<String[]> rawRoundObjectsFromFile, final int round){
+  public void validate(final List<String[]> rawRoundObjectsFromFile, final int round){
     this.resetToZeroClassFields();
     ElementNotation[] gameObjectTypes = ElementNotation.values();
 

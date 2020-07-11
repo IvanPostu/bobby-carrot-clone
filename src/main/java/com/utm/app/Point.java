@@ -12,6 +12,11 @@ public class Point {
     this.y = y;
   }
 
+  public Point(Point p){
+    this.x = p.getX();
+    this.y = p.getY();
+  }
+
   public int getX() {
     return x;
   }
@@ -22,7 +27,7 @@ public class Point {
 
   @Override
   public String toString() {
-    return String.format("Point { x:%s, y:%s }", this.x, this.y);
+    return String.format("P{x:%d,y:%d}", this.x, this.y);
   }
 
   @Override

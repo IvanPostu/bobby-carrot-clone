@@ -35,7 +35,7 @@ public class GroundSpikesTrap extends GameObject {
 
   @Override
   public boolean isAggressive() {
-    return true;
+    return trapIsEnabled();
   }
 
   public void setTrapEnabled() {

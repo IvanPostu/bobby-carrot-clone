@@ -6,6 +6,10 @@ public enum ElementNotation {
    */
   EMPTY("AA"),
 
+  BAD_ENEMY("B1"),
+
+  VERY_BAD_ENEMY("B2"),
+
   RABBIT("RA"),
 
   ROCK("RO"),

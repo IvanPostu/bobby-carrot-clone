@@ -1,14 +1,10 @@
 package com.utm.app.game.round;
 
-import java.util.List;
-import java.util.Map;
+import java.awt.event.ActionEvent;
 
 import javax.swing.Timer;
-import java.awt.event.*;
 
-import com.utm.app.Point;
 import com.utm.app.game.Camera;
-import com.utm.app.game.element.GameObject;
 import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.round.dto.RoundInitializerDTO;
 import com.utm.app.state.ApplicationState;
@@ -20,8 +16,13 @@ import com.utm.core.InjectProperty;
 import com.utm.core.PostConstruct;
 import com.utm.core.Singleton;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Singleton
 public class RoundManager {
+
+  static Logger logger = LogManager.getLogger(RoundManager.class);
   
   @InjectProperty("application.game.totalrounds")
   private int totalRounds;
@@ -74,16 +75,20 @@ public class RoundManager {
     return currentRound;
   }
 
-  private Map<Point, List<GameObject>> generateGameObjects(){
+  private RoundInitializerDTO generateGameObjects(){
     RoundInitializerDTO round = roundInitializer.initGameObjects(currentRound);
     this.roundTime = round.getRoundTime();
     topPanel.setCurrentRound(currentRound);
     topPanel.setRoundTime(this.roundTime);
-    return round.getRoundObjects();
+
+    logger.debug("Round objects successfully generated.");
+    return round;
   }
 
   private void everySecondEvent(ActionEvent $_){
     topPanel.setRoundTime(this.roundTime==0?this.roundTime:--this.roundTime);
+
+    this.roundState.everySecondHandler();
 
     if(this.roundTime==0){
       manageRoundLoseEvent();
@@ -93,9 +98,11 @@ public class RoundManager {
   private void manageRoundLoseEvent(){
     applicationState.setApplicationState(CurrentAppStateEnum.LOSE_ROUND_MSG);
     setRound(currentRound);
+    logger.debug("Round {} lost, restart process.", currentRound);
   }
 
   private void manageRoundCompleteEvent(){
+    logger.debug("Round {} completed.", currentRound);
     if(hasNextRound()){
       applicationState.setApplicationState(CurrentAppStateEnum.NEXT_ROUND_MSG);
       setRound(++currentRound);
@@ -111,8 +118,13 @@ public class RoundManager {
 
   private void setRound(short round){
     currentRound = round;
-    roundState = new RoundState(camera, generateGameObjects(), topPanel, 
-      this::manageRoundCompleteEvent, this::manageRoundLoseEvent);
+    RoundInitializerDTO roundData = generateGameObjects();
+
+    roundState = new RoundState(camera, roundData.getRoundObjects(), roundData.getRabbit(),
+      topPanel, this::manageRoundCompleteEvent, this::manageRoundLoseEvent
+    );
+
+    logger.debug("Round {} has been initialized.", round);
   }
 
 }

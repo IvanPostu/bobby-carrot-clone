@@ -1,20 +1,20 @@
 package com.utm.app.game.element;
 
-
 import java.awt.Graphics2D;
 import java.awt.image.*;
 
 import com.utm.app.Point;
 
-public class Apple extends GameObject {
-  public static final String TEXTURE_PATH = "/images/apple48.png";
+public class BadEnemy extends GameObject implements Enemy {
+
+  public static final String TEXTURE_PATH = "/images/enemy48_A.png";
   private BufferedImage texture;
 
-  Apple(Point p, BufferedImage texture) {
+  public BadEnemy(Point p, BufferedImage texture) {
     super(p);
     this.texture = texture;
-    this.walkable = true;
-    this.eatable = true;
+    this.walkable = false;
+    this.eatable = false;
   }
 
   @Override
@@ -23,8 +23,10 @@ public class Apple extends GameObject {
   }
 
   @Override
-  public String toString() {
-    final String msg = String.format("Apple { x:%d, y:%d }", p.getX(), p.getY());
-    return msg;
+  public boolean isAggressive() {
+    return true;
   }
+
+ 
+  
 }
