@@ -13,7 +13,6 @@ import com.utm.app.game.element.GameObjectFactory;
 import com.utm.app.game.element.Rabbit;
 import com.utm.app.game.round.dto.RoundInitializerDTO;
 import com.utm.app.game.round.dto.RoundLoaderDTO;
-import com.utm.app.view.game.MainGame;
 import com.utm.core.InjectByType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,20 +21,23 @@ public class RoundInitializer {
 
   static Logger logger = LogManager.getLogger(RoundInitializer.class);
 
-  @InjectByType
-  private RoundSize roundSize;
+  private final RoundSize roundSize;
+  private final GameObjectFactory gameObjectFactory;
+  private final RoundInitializerValidator validator;
+  private final RoundLoader roundLoader;
 
   @InjectByType
-  private GameObjectFactory gameObjectFactory;
-
-  @InjectByType
-  private MainGame mainGame;
-
-  @InjectByType
-  private RoundInitializerValidator validator;
-
-  @InjectByType
-  private RoundLoader roundLoader;
+  public RoundInitializer(
+    RoundSize roundSize,
+    GameObjectFactory gameObjectFactory,
+    RoundInitializerValidator validator,
+    RoundLoader roundLoader
+  ){
+    this.gameObjectFactory = gameObjectFactory;
+    this.roundSize = roundSize;
+    this.validator = validator;
+    this.roundLoader = roundLoader;
+  }
 
   public RoundInitializerDTO initGameObjects(int currentRound) {
     RoundLoaderDTO round = roundLoader.loadRoundObjectNotations(currentRound);
@@ -46,7 +48,7 @@ public class RoundInitializer {
       logger.error(e);
       throw new RuntimeException();
     }
-    roundObjectNotationsFromFile = addRoundBorder(roundObjectNotationsFromFile);
+    roundObjectNotationsFromFile = this.addRoundBorder(roundObjectNotationsFromFile);
     calcRoundSize(roundObjectNotationsFromFile);
     RoundInitializerDTO result = generateRoundInitializerDTO(
       roundObjectNotationsFromFile,

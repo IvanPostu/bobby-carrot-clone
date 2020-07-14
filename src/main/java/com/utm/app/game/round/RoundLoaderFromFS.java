@@ -10,7 +10,12 @@ import java.util.stream.Stream;
 
 import com.utm.app.game.round.dto.RoundLoaderDTO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class RoundLoaderFromFS implements RoundLoader {
+
+  private final static Logger logger = LogManager.getLogger(RoundState.class);
   
   @Override
   public RoundLoaderDTO loadRoundObjectNotations(final int currentRound){
@@ -43,8 +48,9 @@ public class RoundLoaderFromFS implements RoundLoader {
       }
 
       roundLoaderDTO.setRoundObjectNotations(round);
-    } catch (Exception e1) {
-      e1.printStackTrace();
+    } catch (Exception e) {
+      logger.error(e);
+      logger.error("Round file is not valid!!!");
     }
 
     return roundLoaderDTO;

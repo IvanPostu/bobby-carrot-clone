@@ -1,5 +1,6 @@
 package com.utm.core;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -63,7 +64,30 @@ public class ObjectFactory {
 
   }
 
+  @SuppressWarnings({"unchecked"})
   private <T> T create(Class<T> implClass) throws Exception {
+
+    /**
+     * If is declared constructor with params and annotation @InjectByType
+     * then use it.
+     */
+    Constructor<?>[] ctors = implClass.getConstructors();
+    for(Constructor<?> ct : ctors){
+      if(ct.isAnnotationPresent(InjectByType.class)){
+        Class<?>[] paramTypes = ct.getParameterTypes();
+        Object[] params = new Object[paramTypes.length];
+
+        for (int i = 0; i < paramTypes.length; i++) {
+          params[i] = context.getObject(paramTypes[i]);
+        }
+
+        return (T) ct.newInstance(params);
+      }
+    }
+
+    /**
+     * Or else use default constructor.
+     */
     return implClass.getDeclaredConstructor().newInstance();
   }
 

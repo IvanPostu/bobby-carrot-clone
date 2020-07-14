@@ -21,7 +21,7 @@ public class RoundInitializerValidatorTest {
 
     final String[] l1 = {a, a, r, e, e};
     final String[] l2 = {a, a, a, e, e};
-    final String[] l3 = {a, a, a, a, a};
+    final String[] l3 = {a, a, b, a, a};
 
     final List<String[]> rawRoundObjectsFromFile = Arrays.asList(l1, l2, l3);
 
