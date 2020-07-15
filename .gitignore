@@ -30,9 +30,8 @@ build/
 
 node_modules
 
-
+/.mvn
 *.class
-*.jar
 uploads
 pg_data
 *.log
