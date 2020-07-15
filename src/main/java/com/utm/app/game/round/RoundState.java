@@ -3,6 +3,7 @@ package com.utm.app.game.round;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -185,11 +186,13 @@ public class RoundState {
        * If stepped on aggresive object.
        * Lose round.
        */
-      nextLocObjects.forEach(a->{
-        if(a.isAggressive()){
+      Iterator<GameObject> nextLocObjectsIterator = nextLocObjects.iterator();
+      while(nextLocObjectsIterator.hasNext()){
+        if(nextLocObjectsIterator.next().isAggressive()){
           this.roundLoseCallback.resolve();
+          return;
         }
-      });
+      }
 
       /**
        * Move camera
